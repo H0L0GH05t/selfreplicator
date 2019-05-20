@@ -10,10 +10,6 @@ def getGitHubAuth(request):
     return render(request, 'results.html', {'access_token': access_token})
 
 def index(request):
-    # if 'getting_auth' in request.GET:
-    #     get_auth = request.GET['get_auth']
-    #     if get_auth == "true":
-    #         getGitHubAuth(request)
     return render(request, "index.html")
 
 def results(request):

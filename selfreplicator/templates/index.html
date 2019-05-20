@@ -10,40 +10,9 @@
     </a>
     <h1>Self-replicating App</h1>
     <p>This is an application that will copy its own code into a new repository in your GitHub account.</p>
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/login/oauth/authorize?client_id=c66f4b201302de0cfe4e& scope=user%20public_repo write:repo_hook read:repo_hook redirect_uri=http://localhost:8000/results"><span class="glyphicon glyphicon-flash execute-btn-text"></span> Replicate app to your GitHub!</a>
+    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/login/oauth/authorize?client_id=c66f4b201302de0cfe4e& scope=user%20public_repo write:repo_hook read:repo_hook"><span class="glyphicon glyphicon-flash execute-btn-text"></span> Replicate app to your GitHub!</a>
     <a type="button" class="btn btn-lg btn-primary" href="https://github.com/H0L0GH05t/selfreplicator"><span class="glyphicon glyphicon-download"></span> View the Source on GitHub</a>
   </div>
 </div>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-info"></span> Documentation</h3>
-      <ul>
-        <li>This application requests access to the user's GitHub profile and creates a repository for the user with this application's own code in it. The application does not ask for the users's password or require access to user's private repositories.</li>
-        <li>This application was created with Python using Django and deployed on Heroku</li>
-        <li>To deploy a Python app like this one using Heroku you can check out their <a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started</a> guide</li>
-        <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
-        <ul>
-          <li><code>git clone https://github.com/heroku/python-getting-started.git</code> - this will create a local copy of the source code for the app</li>
-          <li><code>cd python-getting-started</code> - change directory into the local source code repository</li>
-          <li><code>heroku git:remote -a &lt;your-app-name></code> - associate the Heroku app with the repository</li>
-          <li>You'll now be set up to run the app locally, or <a href="https://devcenter.heroku.com/articles/getting-started-with-python#push-local-changes">deploy changes</a> to Heroku</li>
-        </ul>
-      </ul>
-      <h3><span class="glyphicon glyphicon-info"></span> How to Run this App Locally:</h3>
-      <ul>
-        <li>Python 3.7</li>
-        <li>Django 2.2</li>
-        <li>Python 3.7.3</li>
-      </ul>
-      <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
-      <ul>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/">Heroku Dev Center</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/django-app-configuration">Configuring Django Apps for Heroku</a></li>
-      </ul>
-    </div>
-  </div> <!-- row -->
-</div>
+
 {% endblock %}

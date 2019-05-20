@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, re_path, include
 
 from django.contrib import admin
 
@@ -17,7 +17,6 @@ import selfreplicator.views
 urlpatterns = [
     path("", selfreplicator.views.index, name="index"),
     path("results/", selfreplicator.views.results, name="results"),
-    #path('selfreplicator/', include('selfreplicator.urls')),
-    #path("db/", selfreplicator.views.db, name="db"),
+    #re_path(r'^results/(?P<code>[0-9]{4})', selfreplicator.views.results),
     path("admin/", admin.site.urls),
 ]
