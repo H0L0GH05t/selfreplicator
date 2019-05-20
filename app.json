@@ -1,8 +1,8 @@
 {
-  "name": "Start on Heroku: Python",
-  "description": "A barebones Python app, which can easily be deployed to Heroku.",
+  "name": "Self-replicating App",
+  "description": "A Python app, which replicates its own code into a GitHub repository.",
   "image": "heroku/python",
-  "repository": "https://github.com/heroku/python-getting-started",
+  "repository": "https://github.com/H0L0GH05t/self-replicator",
   "keywords": ["python", "django" ],
   "addons": [ "heroku-postgresql" ],
   "env": {
