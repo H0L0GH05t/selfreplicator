@@ -11,32 +11,18 @@ def results(request):
     code_for_token = request.GET.get('code')
 
     auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token}) #Accept: application/json
-    access_token='not found'
-    try:
-        if auth_response.access_token:
-            access_token = auth_response.access_token
-    except:
-        access_token = access_token.split('&')[0]
-        pass
-    # request.get_full_path
-    username = 'not found'
-    username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
-    test = 'failed'
-    try:
-        if username_response.login:
-            username = username_response.login
-            test = 'not necessary'
-    except:
-        test = username_response
-        pass
+    access_token = request.POST.get('access_token')
+    auth_status = auth_response.status_code
     
-    # ("https://api.github.com/users/<username>/repos?access_token=<generated token>"
+    username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
+    username = username_response.GET.get('login')
+    user_status = auth_response.status_code
+    
     return render(request, "results.html", {'access_token': access_token,
                                             'client_id': settings.CLIENT_ID,
                                             'username': username,
-                                            'code_for_token' : code_for_token,
-                                            'username_response': test,
-                                            'auth_response': auth_response})
+                                            'username_response' : user_status,
+                                            'auth_response': auth_status})
 
 # GET /repos/:owner/:repo/contents/
 # PUT /repos/:owner/:repo/contents/:path
