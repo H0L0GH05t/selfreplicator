@@ -8,18 +8,38 @@ def index(request):
 
 def results(request):
     response = requests.get('https://github.com/login/oauth/authorize',
-                            params={client_id:'c66f4b201302de0cfe4e&',
+                            params={'client_id':'c66f4b201302de0cfe4e&',
                                     'scope': 'user public_repo write:repo_hook'})
     
     code_for_token = response.text.replace('/results/?code=','')
     
     # GET '/results/?code=3c4b7539b00cacfa9dc8'
-    access_token = requests.post('https://github.com/login/oauth/access_token', params={client_id:settings.CLIENT_ID, client_secret: settings.CLIENT_SECRET, 'code': code_for_token}) #Accept: application/json
+    auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token}) #Accept: application/json
+    access_token='not found'
+    try:
+        if auth_response.access_token:
+            access_token = auth_response.access_token
+   except:
+        access_token = access_token.split('&')[0]
+        pass
     # request.get_full_path
-    #username = requests.get('https://api.github.com/user', params={'access_token': access_token})
+    username = 'not found'
+    username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
+    test = 'failed'
+    try:
+        if username_response.login:
+            username = username_response.login
+            test = 'not necessary'
+    except:
+        test = username_response
+        pass
+    
     # ("https://api.github.com/users/<username>/repos?access_token=<generated token>"
     return render(request, "results.html", {'access_token': access_token,
-                                            'test' : code_for_token})
+                                            'client_id': settings.CLIENT_ID,
+                                            'username': username,
+                                            'code_for_token' : code_for_token,
+                                            'test': test})
 
 # GET /repos/:owner/:repo/contents/
 # PUT /repos/:owner/:repo/contents/:path

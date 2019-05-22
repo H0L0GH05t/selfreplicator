@@ -10,39 +10,13 @@
     </a>
     <h1>Results</h1>
     <p>Access Token: <strong>{{ access_token }}</strong></p>
-    <p>Test: <strong>{{ test }}</strong></p>
+    <p>Username: <strong>{{ username }}</strong></p>
+    <p>code_for_token: <strong>{{ code_for_token }}</strong></p>
+    <p>username response: <strong>{{ test }}</strong></p>
   </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-info"></span> Documentation</h3>
-      <ul>
-        <li>This application requests access to the user's GitHub profile and creates a repository for the user with this application's own code in it. The application does not ask for the users's password or require access to user's private repositories.</li>
-        <li>This application was created with Python using Django and deployed on Heroku</li>
-        <li>To deploy a Python app like this one using Heroku you can check out their <a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started</a> guide</li>
-        <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
-        <ul>
-          <li><code>git clone https://github.com/heroku/python-getting-started.git</code> - this will create a local copy of the source code for the app</li>
-          <li><code>cd python-getting-started</code> - change directory into the local source code repository</li>
-          <li><code>heroku git:remote -a &lt;your-app-name></code> - associate the Heroku app with the repository</li>
-          <li>You'll now be set up to run the app locally, or <a href="https://devcenter.heroku.com/articles/getting-started-with-python#push-local-changes">deploy changes</a> to Heroku</li>
-        </ul>
-      </ul>
-      <h3><span class="glyphicon glyphicon-info"></span> How to Run this App Locally:</h3>
-      <ul>
-        <li>Python 3.7</li>
-        <li>Django 2.2</li>
-        <li>Python 3.7.3</li>
-      </ul>
-      <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
-      <ul>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/">Heroku Dev Center</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/django-app-configuration">Configuring Django Apps for Heroku</a></li>
-      </ul>
-    </div>
-  </div> <!-- row -->
+  <div class="containter">
+    <span class="glyphicon glyphicon-flash execute-btn-text"> To review or revoke this app's access,
+    <a href="https://github.com/settings/connections/applications/{{ client_id }}"> click here </a> to go to your account's authorized apps page.</span>
+  </div>
 </div>
 {% endblock %}

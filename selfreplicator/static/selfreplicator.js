@@ -18,7 +18,6 @@ function getGitHubAuth(){
         type : 'POST',
         url : 'results/',
         success : function(responseText) {
-            //console.log(responseText)
         },
         complete : function(responseText) {
             console.log(responseText)
