@@ -15,7 +15,7 @@ def results(request):
     auth_status = auth_response.status_code
     
     username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
-    username = username_response.GET.get('login')
+    username = username_response.get('login')
     user_status = auth_response.status_code
     
     return render(request, "results.html", {'access_token': access_token,
