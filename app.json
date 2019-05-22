@@ -7,7 +7,7 @@
   "addons": [ "heroku-postgresql" ],
   "env": {
     "SECRET_KEY": {
-      "description": "The secret key for the Django application.",
+      "description": "z-nl6z-xjwuh&tl*+0tqyd94newr0bo58$x-jve2*@5gzzj&s&",
       "generator": "secret"
     }
   },

@@ -1,3 +1,6 @@
+.hidden-text {
+    display: none;
+}
 .jumbotron {
     background: #510416;
     color: white;
@@ -30,9 +33,6 @@
 }
 .jumbotron .app-logo img {
     max-width: 100%
-}
-.hidden {
-    display: none;
 }
 .username-input {
     background-color: grey;

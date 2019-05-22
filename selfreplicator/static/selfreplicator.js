@@ -1,7 +1,12 @@
 $( document ).ready( function() {
     $('#execute-btn').click(function() {
-        $('.execute-btn-text').add(".hidden");
-        $('.executed-btn-text').remove(".hidden");
+        
+        // Show loading text
+        value = $('.executed-btn-text').attr("class").replace("hidden-text", "");
+        $('.executed-btn-text').attr("class", value);
+        
+        // Make button hidden
+        $('.execute-btn-text').hide();
         $('#execute-btn').attr("disabled", true);
         
         getGitHubAuth();
@@ -11,10 +16,7 @@ $( document ).ready( function() {
 function getGitHubAuth(){
     $.ajax({
         type : 'POST',
-        url : '/',
-        data : {
-            getting_auth : "true"
-        },
+        url : 'results/',
         success : function(responseText) {
             //console.log(responseText)
         },
