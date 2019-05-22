@@ -4,18 +4,23 @@ from django.conf import settings
 import requests
 
 def index(request):
-    auth_url = ""
-    if settings.DEBUG == True:
-        auth_url = 'selfreplicator:results'
     return render(request, "index.html", {'auth_url' : auth_url,
                                           'debug' : settings.DEBUG})
 
 def results(request):
-    access_token = request.get_full_path
+    response = requests.get('https://github.com/login/oauth/authorize',
+                            params={client_id:'c66f4b201302de0cfe4e&',
+                                    'scope': user public_repo write:repo_hook})
+    
+    code_for_token = response.text.replace('/results/?code=','')
+    
+    # GET '/results/?code=3c4b7539b00cacfa9dc8'
+    access_token = requests.post('https://github.com/login/oauth/access_token', params={client_id:settings.CLIENT_ID, client_secret: settings.CLIENT_SECRET, 'code': code_for_token}) #Accept: application/json
+    # request.get_full_path
     #username = requests.get('https://api.github.com/user', params={'access_token': access_token})
     # ("https://api.github.com/users/<username>/repos?access_token=<generated token>"
     return render(request, "results.html", {'access_token': access_token,
-                                            'test' : request})
+                                            'test' : code_for_token})
 
 # GET /repos/:owner/:repo/contents/
 # PUT /repos/:owner/:repo/contents/:path
