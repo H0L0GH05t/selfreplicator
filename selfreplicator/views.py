@@ -11,18 +11,19 @@ def results(request):
     code_for_token = request.GET.get('code')
 
     auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token}) #Accept: application/json
-    access_token = auth_response.text.split('&')[0]
+    access_token = auth_response.text.split('&')[0].replace('access_token=', '')
     auth_status = auth_response.status_code
     
     username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
     username = username_response.json().get('login')
+    test = username_response.text
     user_status = auth_response.status_code
     
     return render(request, "results.html", {'access_token': access_token,
                                             'client_id': settings.CLIENT_ID,
                                             'username': username,
                                             'username_response' : user_status,
-                                            'auth_response': auth_status})
+                                            'test': test})
 
 # GET /repos/:owner/:repo/contents/
 # PUT /repos/:owner/:repo/contents/:path
