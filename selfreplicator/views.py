@@ -8,17 +8,8 @@ def index(request):
 
 def results(request):
     
-    test2 = request
-    
-    try:
-        code_for_token = request.GET.get('code')
-    except:
-        code_for_token = request.POST.get('code')
-        pass
-    
-    # .replace('/results/?code=','')
-    
-    # GET '/results/?code=3c4b7539b00cacfa9dc8'
+    code_for_token = request.GET.get('code')
+
     auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token}) #Accept: application/json
     access_token='not found'
     try:
@@ -30,13 +21,13 @@ def results(request):
     # request.get_full_path
     username = 'not found'
     username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
-    test = 'failed'
+    test1 = 'failed'
     try:
         if username_response.login:
             username = username_response.login
-            test = 'not necessary'
+            test1 = 'not necessary'
     except:
-        test = username_response
+        test1 = username_response
         pass
     
     # ("https://api.github.com/users/<username>/repos?access_token=<generated token>"
@@ -45,7 +36,8 @@ def results(request):
                                             'username': username,
                                             'code_for_token' : code_for_token,
                                             'test': test,
-                                            'test2': test2})
+                                            'username_response': test1,
+                                            'auth_response': auth_response})
 
 # GET /repos/:owner/:repo/contents/
 # PUT /repos/:owner/:repo/contents/:path
