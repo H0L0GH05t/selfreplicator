@@ -4,8 +4,7 @@ from django.conf import settings
 import requests
 
 def index(request):
-    return render(request, "index.html", {'auth_url' : auth_url,
-                                          'debug' : settings.DEBUG})
+    return render(request, "index.html")
 
 def results(request):
     response = requests.get('https://github.com/login/oauth/authorize',
