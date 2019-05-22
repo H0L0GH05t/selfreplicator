@@ -9,23 +9,5 @@ $( document ).ready( function() {
         $('.execute-btn-text').hide();
         $('#execute-btn').attr("disabled", true);
         
-        getGitHubAuth();
     });
 });
-
-function getGitHubAuth(){
-    $.ajax({
-        type : 'POST',
-        url : 'results/',
-        success : function(responseText) {
-        },
-        complete : function(responseText) {
-            console.log(responseText)
-            // do stuff
-        },
-        error : function(xhr, status) {
-            console.log('Error saving ePaper');
-            console.log('error ' + xhr.status + " ---- " + xhr.statusText + ' --- ' + status);
-        }
-    });
-}

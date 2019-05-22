@@ -17,6 +17,5 @@ import selfreplicator.views
 urlpatterns = [
     path("", selfreplicator.views.index, name="index"),
     path("results/", selfreplicator.views.results, name="results"),
-    # re_path(r'^results/(?P<code>[0-9]{4})', selfreplicator.views.results),
     path("admin/", admin.site.urls),
 ]

@@ -7,11 +7,16 @@ def index(request):
     return render(request, "index.html")
 
 def results(request):
-    response = requests.get('https://github.com/login/oauth/authorize',
-                            params={'client_id':'c66f4b201302de0cfe4e&',
-                                    'scope': 'user public_repo write:repo_hook'})
     
-    code_for_token = response.text.replace('/results/?code=','')
+    test2 = request
+    
+    try:
+        code_for_token = request.GET.get('code')
+    except:
+        code_for_token = request.POST.get('code')
+        pass
+    
+    # .replace('/results/?code=','')
     
     # GET '/results/?code=3c4b7539b00cacfa9dc8'
     auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token}) #Accept: application/json
@@ -39,7 +44,8 @@ def results(request):
                                             'client_id': settings.CLIENT_ID,
                                             'username': username,
                                             'code_for_token' : code_for_token,
-                                            'test': test})
+                                            'test': test,
+                                            'test2': test2})
 
 # GET /repos/:owner/:repo/contents/
 # PUT /repos/:owner/:repo/contents/:path

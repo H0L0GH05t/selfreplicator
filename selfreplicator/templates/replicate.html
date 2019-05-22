@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <a href="/" class="app-logo">
+      <img src="{% static 'app-logo.png'%}">
+    </a>
+  </div>
+  <div class="container">
+    {{ github_thing }}
+  </div>
+</div>
+
+{% endblock %}
