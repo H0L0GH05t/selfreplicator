@@ -19,7 +19,7 @@ def results(request):
     try:
         if auth_response.access_token:
             access_token = auth_response.access_token
-   except:
+    except:
         access_token = access_token.split('&')[0]
         pass
     # request.get_full_path
