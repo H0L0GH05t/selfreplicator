@@ -21,13 +21,13 @@ def results(request):
     # request.get_full_path
     username = 'not found'
     username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
-    test1 = 'failed'
+    test = 'failed'
     try:
         if username_response.login:
             username = username_response.login
-            test1 = 'not necessary'
+            test = 'not necessary'
     except:
-        test1 = username_response
+        test = username_response
         pass
     
     # ("https://api.github.com/users/<username>/repos?access_token=<generated token>"
@@ -35,8 +35,7 @@ def results(request):
                                             'client_id': settings.CLIENT_ID,
                                             'username': username,
                                             'code_for_token' : code_for_token,
-                                            'test': test,
-                                            'username_response': test1,
+                                            'username_response': test,
                                             'auth_response': auth_response})
 
 # GET /repos/:owner/:repo/contents/
