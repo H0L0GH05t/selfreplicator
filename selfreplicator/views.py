@@ -10,7 +10,7 @@ def index(request):
 def results(request):
     response = requests.get('https://github.com/login/oauth/authorize',
                             params={client_id:'c66f4b201302de0cfe4e&',
-                                    'scope': user public_repo write:repo_hook})
+                                    'scope': 'user public_repo write:repo_hook'})
     
     code_for_token = response.text.replace('/results/?code=','')
     
