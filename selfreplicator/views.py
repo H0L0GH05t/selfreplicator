@@ -39,7 +39,7 @@ def results(request):
         result_status = "error auth"
         try:
             # create the new repo and push the app files to it
-            result_status, result_msgs, created_repo_link, create_status = create_repo(auth_token, username, result_msgs)
+            result_status, result_msgs, created_repo_link, result_status = create_repo(auth_token, username, result_msgs)
         except:
             result_status = "error"
             result_msgs.append("Failed to create repo in user %s's public repos" % username)
@@ -49,7 +49,7 @@ def results(request):
                                             'result_status': result_status,
                                             'results_msgs': result_msgs,
                                             'created_repo_link': created_repo_link,
-                                            'code': create_status})
+                                            'code': result_msgs})
 
 def replicate_file(file_to_copy, username):
     
