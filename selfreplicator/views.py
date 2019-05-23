@@ -44,7 +44,7 @@ def results(request):
     result_msgs = []
     result_status = "success"
     created_repo_link = ""
-    
+    test = 'TEST'
     # get the code to exchange for an access token
     code_for_token = request.GET.get('code')
 
@@ -60,12 +60,13 @@ def results(request):
             username = username_response.json().get('login')
             result_msgs.append("Successfully found user profile %s from GitHub" % username)
             
-            # create new repo in user's GitHub account
-            #response = requests.post('https://api.github.com/user/repos', data=data, auth=(username, access_token))
-            create_repo_response = requests.post('https://api.github.com/%s/repos' % username, data={'name': 'selfreplicatingapp',
+        # create new repo in user's GitHub account
+        #response = requests.post('https://api.github.com/user/repos', data=data, auth=(username, access_token))
+            create_repo_response = requests.post('https://api.github.com/user/repos', data={'name': 'selfreplicatingapp',
                                                                                                      'description': 'This is an app that creates a copy of itself as a repo on github.',
                                                                                                      'homepage': 'selfreplicator.herokuapp.com',
-                                                                                                     'auto_init': False})
+                                                                                                     'auto_init': False}, auth=(username, access_token))
+            test = create_repo_response.text
             if create_repo_response.status_code == 201:
                 result_status = "success"
                 result_msgs.append("successfully created new repo")
@@ -80,17 +81,17 @@ def results(request):
             else:
                 # record repo creation error message
                 result_status = "error creating repo"
-                result_msgs.append("Failed to create new repo in user %s's GitHub account" % username)
+                result_msgs.append("Failed to create new repo in user's GitHub account")
             
         else:
             # record the user error message
             # results_msg = "There was a problem with finding your profile: got status code %s" % username_response.status_code
             result_msgs.append("There was a problem with finding your profile: got status code %s" % username_response.status_code)
-            result_status = "error username"
+            result_status = "error"
     else:
          # Record the authentication error message
         result_msgs.append("There was a problem with authentication: got status code %s" % auth_response.status_code)
-        result_status = "error auth"
+        result_status = "error"
         
         # try:
         # create the new repo and push the app files to it
@@ -104,7 +105,7 @@ def results(request):
                                             'result_status': result_status,
                                             'results_msgs': result_msgs,
                                             'created_repo_link': created_repo_link,
-                                            'code': create_repo_response})
+                                            'code': test})
 
 def replicate_file(file_to_copy, username):
     
@@ -117,11 +118,11 @@ def replicate_file(file_to_copy, username):
     requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, json.dumps(contents_file)))
     #response = requests.put('https://httpbin.org/put', data={'username': username, })
 
-def create_repo(auth_token, username, result_msgs):
+def create_repo(auth_token, result_msgs):
     created_repo_link = ''
     # create new repo in user's GitHub account
     #response = requests.post('https://api.github.com/user/repos', data=data, auth=(username, access_token))
-    response = requests.post('https://api.github.com/%s/repos' % username, data={'name': 'selfreplicatingapp',
+    response = requests.post('https://api.github.com/user/repos', data={'name': 'selfreplicatingapp',
                                                                                  'description': 'This is an app that creates a copy of itself as a repo on github.',
                                                                                  'homepage': 'selfreplicator.herokuapp.com',
                                                                                  'auto_init': False})
@@ -132,6 +133,6 @@ def create_repo(auth_token, username, result_msgs):
     else:
         # record repo creation error message
         result_status = "error creating repo"
-        result_msgs.append("Failed to create new repo in user %s's GitHub account" % username)
+        result_msgs.append("Failed to create new repo in user's GitHub account")
             
     return result_status, result_msgs, created_repo_link, response.status_code
