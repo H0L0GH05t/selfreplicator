@@ -74,7 +74,7 @@ def results(request):
         if create_repo_response.status_code == 201:
             result_status = "success"
             result_msgs.append("successfully created new repo")
-            created_repo_link = create_repo_response.location
+            #created_repo_link = create_repo_response.text
             
             for appfile in appfiles:
                 if os.path.exists(appfile):
