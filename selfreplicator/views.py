@@ -37,13 +37,12 @@ def results(request):
          # Record the authentication error message
         result_msgs.append("There was a problem with authentication: got status code %s" % auth_response.status_code)
         result_status = "error auth"
-            
-            try:
-                # create the new repo and push the app files to it
-                result_status, result_msgs, created_repo_link, create_status = create_repo(auth_token, username, result_msgs)
-            except:
-                result_status = "error"
-                result_msgs.append("Failed to create repo in user %s's public repos" % username)
+        try:
+            # create the new repo and push the app files to it
+            result_status, result_msgs, created_repo_link, create_status = create_repo(auth_token, username, result_msgs)
+        except:
+            result_status = "error"
+            result_msgs.append("Failed to create repo in user %s's public repos" % username)
     
     # render the results page with the status, and link to user's authorization for this app
     return render(request, "results.html", {'client_id': settings.CLIENT_ID,
