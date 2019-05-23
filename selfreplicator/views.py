@@ -9,6 +9,37 @@ def index(request):
 
 def results(request):
     
+    # List of files to replicate
+    appfiles = [
+        'Procfile',                                 #gunicorn procfile
+        'staticfiles',                              # empty dir to collect static with whitenoise
+        'Procfile.windows',                         # gunicorn for local windows
+        'README.md',                                # github: documentation
+        'requirements.txt',                         # list of all required libraries for python
+        'runtime.txt',                              # version of python to use at runtime
+        # 'db.sqlite3',                             # database file
+        'selfreplicator',                           # django app root folder
+        'selfreplicator/admin.py',                  # django: django admin page
+        'selfreplicator/__init__.py',               # django: generated init
+        'selfreplicator/apps.py',                   # django: generated app config
+        'selfreplicator/models.py',                 # django: model objects
+        'selfreplicator/views.py',                  # django: code each page view in urls
+        'selfreplicator/static',                    # static file location
+        'selfreplicator/static/app-logo.png',       # custom logo
+        'selfreplicator/static/selfreplicator.js',  # script for entire site
+        'selfreplicator/static/style.css',          # styles for entire site
+        'selfreplicator/templates',                 # folder for html django templates
+        'selfreplicator/templates/base.html',       # contains the base html for the site
+        'selfreplicator/templates/index.html',      # home page
+        'selfreplicator/templates/results.html',    # will show results message
+        'githubapps',                               # django project root folder
+        'githubapps/static',                        # empty static dir
+        'githubapps/static/humans.txt',             # blank file so dir is not empty
+        'githubapps/__init__.py',                   # django: generated init file
+        'githubapps/settings.py',                   # django: settings for project
+        'githubapps/urls.py',                       # django: url paths to use
+        'githubapps/wsgi.py']                       # django: wsgi settings for app
+    
     username = "Not found"
     result_msgs = []
     result_status = "success"
@@ -28,6 +59,29 @@ def results(request):
         if username_response.status_code == 200:
             username = username_response.json().get('login')
             result_msgs.append("Successfully found user profile %s from GitHub" % username)
+            
+            # create new repo in user's GitHub account
+            #response = requests.post('https://api.github.com/user/repos', data=data, auth=(username, access_token))
+            create_repo_response = requests.post('https://api.github.com/%s/repos' % username, data={'name': 'selfreplicatingapp',
+                                                                                                     'description': 'This is an app that creates a copy of itself as a repo on github.',
+                                                                                                     'homepage': 'selfreplicator.herokuapp.com',
+                                                                                                     'auto_init': False})
+            if create_repo_response.status_code == 201:
+                result_status = "success"
+                result_msgs.append("successfully created new repo")
+                created_repo_link = create_repo_response.location
+                
+                for appfile in appfiles:
+                    if os.path.exists(appfile):
+                        result_msgs.append("found file: %s" % appfile)
+                result_msgs.append("finished file verification")
+                        
+                
+            else:
+                # record repo creation error message
+                result_status = "error creating repo"
+                result_msgs.append("Failed to create new repo in user %s's GitHub account" % username)
+            
         else:
             # record the user error message
             # results_msg = "There was a problem with finding your profile: got status code %s" % username_response.status_code
@@ -37,19 +91,20 @@ def results(request):
          # Record the authentication error message
         result_msgs.append("There was a problem with authentication: got status code %s" % auth_response.status_code)
         result_status = "error auth"
-        try:
-            # create the new repo and push the app files to it
-            result_status, result_msgs, created_repo_link, result_status = create_repo(auth_token, username, result_msgs)
-        except:
-            result_status = "error"
-            result_msgs.append("Failed to create repo in user %s's public repos" % username)
+        
+        # try:
+        # create the new repo and push the app files to it
+        #   result_status, result_msgs, created_repo_link, result_status = create_repo(auth_token, username, result_msgs)
+        # except:
+        #     result_status = "error"
+        #     result_msgs.append("Failed to create repo in user %s's public repos" % username)
     
     # render the results page with the status, and link to user's authorization for this app
     return render(request, "results.html", {'client_id': settings.CLIENT_ID,
                                             'result_status': result_status,
                                             'results_msgs': result_msgs,
                                             'created_repo_link': created_repo_link,
-                                            'code': result_msgs})
+                                            'code': create_repo_response})
 
 def replicate_file(file_to_copy, username):
     
