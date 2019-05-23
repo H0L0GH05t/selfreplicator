@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.conf import settings
 import requests
 import os
+import json
+import base64
 
 def index(request):
     return render(request, "index.html")
@@ -63,10 +65,11 @@ def results(request):
         # create new repo in user's GitHub account
         #response = requests.post('https://api.github.com/user/repos', data=data, auth=(username, access_token))
         headers = {'Authorization' : 'token %s' % access_token}
-        create_repo_response = requests.post('https://api.github.com/user/repos', headers=headers, data={'name': 'selfreplicatingapp',
-                                                                                                 'description': 'This is an app that creates a copy of itself as a repo on github.',
-                                                                                                 'homepage': 'selfreplicator.herokuapp.com',
-                                                                                                 'auto_init': False})
+        data = {'name': 'selfreplicatingapp',
+                'description': 'This is an app that creates a copy of itself as a repo on github.',
+                'homepage': 'selfreplicator.herokuapp.com',
+                'auto_init': False}
+        create_repo_response = requests.post('https://api.github.com/user/repos', headers=headers, data=json.dumps(data))
         test = create_repo_response.text
         if create_repo_response.status_code == 201:
             result_status = "success"
