@@ -19,10 +19,10 @@ def results(request):
 
     # exchange the code for an access token
     auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token})
-    if (auth_response.status_code != 200) or (auth_response.status_code !=201):
+    if (auth_response.status_code != 200) or (auth_response.status_code != 201):
         # Record the error message
         result_msgs.append("There was a problem with authentication: got status code %s" % auth_response.status_code)
-        result_status = "error"
+        result_status = "error auth"
     else:
         result_msgs.append("Successfully obtained access token from GitHub")
         access_token = auth_response.text.split('&')[0].replace('access_token=', '')
@@ -32,25 +32,24 @@ def results(request):
         if username_response.status_code != 200:
             # results_msg = "There was a problem with finding your profile: got status code %s" % username_response.status_code
             result_msgs.append("There was a problem with finding your profile: got status code %s" % username_response.status_code)
-            result_status = "error"
+            result_status = "error username"
         else:
             username = username_response.json().get('login')
             result_msgs.append("Successfully found user profile %s from GitHub" % username)
             
-            try:
-                # create the new repo and push the app files to it
-                result_status, result_msg, created_repo_link = create_repo(auth_token, username, result_msgs)
-                result_msgs.append(result_msg)
-            except:
-                result_status = "error"
-                result_msgs.append("Failed to create repo in user %s's public repos" % username)
-                pass
+            # try:
+            #     # create the new repo and push the app files to it
+            #     result_status, result_msgs, created_repo_link = create_repo(auth_token, username, result_msgs)
+            # except:
+            #     result_status = "error"
+            #     result_msgs.append("Failed to create repo in user %s's public repos" % username)
     
     # render the results page with the status, and link to user's authorization for this app
     return render(request, "results.html", {'client_id': settings.CLIENT_ID,
                                             'result_status': result_status,
                                             'results_msgs': result_msgs,
-                                            'created_repo_link': created_repo_link})
+                                            'created_repo_link': created_repo_link,
+                                            'code': auth_response.status_code})
 
 def replicate_file(file_to_copy, username):
     

@@ -10,13 +10,14 @@
     </a>
     <h1>Results</h1>
     <div class="containter">
-      <span class="">{{result_status}}</span>
+      <p class="">{{code}}</p>
+      <p class="">{{result_status}}</p>
       <ul>
         {% for status_msg in status_msgs %}
         <li class="status-msg">{{status_msg}}</li>
         {% endfor %}
       </ul>
-      {% if result_status != 'error'  %}
+      {% if created_repo_link  %}
       <a type="button" class="btn btn-lg btn-primary" href="{{created_repo_link}}"><span class="glyphicon glyphicon-download"></span> View your new repo in GitHub!</a>
       {% endif %}
     </div>
