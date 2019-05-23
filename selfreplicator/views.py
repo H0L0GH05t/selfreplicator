@@ -73,6 +73,7 @@ def create_repo(auth_token, username, result_msgs):
     
     if response.status_code == 201:
         created_repo_link = response.location
+
         # List of files to replicate
         appfiles = [
             'Procfile',                                 #gunicorn procfile
@@ -112,12 +113,14 @@ def create_repo(auth_token, username, result_msgs):
                     file_to_copy = f.read()
                     replicate_file(file_to_copy, username)
             except:
-                result_status = "error"
+                result_status = "error creating file"
                 result_msgs.append("Failed to create file: %s" % appfile)
-                continue
+                pass
             
-        if result_status!= "error":
+        if result_status == "success":
             result_msgs.append("Successfully added files to repo!")
+        else:
+            result_msgs.append("Failed to add files to repo")
     else:
         # record repo creation error message
         result_status = "error creating repo"
