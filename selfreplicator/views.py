@@ -62,10 +62,11 @@ def results(request):
             
         # create new repo in user's GitHub account
         #response = requests.post('https://api.github.com/user/repos', data=data, auth=(username, access_token))
-        create_repo_response = requests.post('https://api.github.com/user/repos', data={'name': 'selfreplicatingapp',
+        headers = {'Authorization' : 'token %s' % access_token}
+        create_repo_response = requests.post('https://api.github.com/user/repos', headers=headers, data={'name': 'selfreplicatingapp',
                                                                                                  'description': 'This is an app that creates a copy of itself as a repo on github.',
                                                                                                  'homepage': 'selfreplicator.herokuapp.com',
-                                                                                                 'auto_init': False}, auth=(access_token))
+                                                                                                 'auto_init': False})
         test = create_repo_response.text
         if create_repo_response.status_code == 201:
             result_status = "success"
