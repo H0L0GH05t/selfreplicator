@@ -38,19 +38,19 @@ def results(request):
         result_msgs.append("There was a problem with authentication: got status code %s" % auth_response.status_code)
         result_status = "error auth"
             
-            # try:
-            #     # create the new repo and push the app files to it
-            #     result_status, result_msgs, created_repo_link = create_repo(auth_token, username, result_msgs)
-            # except:
-            #     result_status = "error"
-            #     result_msgs.append("Failed to create repo in user %s's public repos" % username)
+            try:
+                # create the new repo and push the app files to it
+                result_status, result_msgs, created_repo_link, create_status = create_repo(auth_token, username, result_msgs)
+            except:
+                result_status = "error"
+                result_msgs.append("Failed to create repo in user %s's public repos" % username)
     
     # render the results page with the status, and link to user's authorization for this app
     return render(request, "results.html", {'client_id': settings.CLIENT_ID,
                                             'result_status': result_status,
                                             'results_msgs': result_msgs,
                                             'created_repo_link': created_repo_link,
-                                            'code': username_response.status_code})
+                                            'code': create_status})
 
 def replicate_file(file_to_copy, username):
     
@@ -72,10 +72,7 @@ def create_repo(auth_token, username, result_msgs):
                                                                                  'homepage': 'selfreplicator.herokuapp.com',
                                                                                  'auto_init': False})
     
-    if response.status_code != 201:
-        result_status = "error"
-        result_msgs.append("Failed to create new repo in user %s's GitHub account" % username)
-    else:
+    if response.status_code == 201:
         created_repo_link = response.location
         # List of files to replicate
         appfiles = [
@@ -122,5 +119,9 @@ def create_repo(auth_token, username, result_msgs):
             
         if result_status!= "error":
             result_msgs.append("Successfully added files to repo!")
+    else:
+        # record repo creation error message
+        result_status = "error creating repo"
+        result_msgs.append("Failed to create new repo in user %s's GitHub account" % username)
             
-    return result_status, result_msgs, created_repo_link
+    return result_status, result_msgs, created_repo_link, response.status_code
