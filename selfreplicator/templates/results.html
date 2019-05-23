@@ -13,15 +13,10 @@
       <p class="">{{code}}</p>
       <p class="">{{result_status}}</p>
       <ul>
-        {% for item in code %}
+        {% for item in results_msgs %}
         <li class="status-msg">{{item}}</li>
         {% endfor %}
       </ul>
-      <div>
-        {% for item in results_msgs %}
-        <p>{{item}}</p>
-        {% endfor %}
-      </div>
       {% if created_repo_link  %}
       <a type="button" class="btn btn-lg btn-primary" href="{{created_repo_link}}"><span class="glyphicon glyphicon-download"></span> View your new repo in GitHub!</a>
       {% endif %}
