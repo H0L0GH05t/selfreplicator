@@ -64,10 +64,10 @@ def replicate_file(appfile, username, headers):
         content_file = appfile
         
     # add file to repo
-    contents_file = json.dumps({'path': appfile,
+    content_data = json.dumps({'path': appfile,
                      'message':'replicated file from app',
-                     'content': contents_file})
-    create_file_response = requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, appfile), headers=headers, data=contents_file)
+                     'content': content_data})
+    create_file_response = requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, appfile), headers=headers, data=content_data)
     return create_file_response
 
 def create_repo(access_token, result_msgs):    
