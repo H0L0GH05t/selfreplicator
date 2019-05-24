@@ -59,11 +59,14 @@ def replicate_file(appfile, username, headers):
     if '.' in appfile:
         with open(appfile) as f:
             file_to_copy = f.read()
+            content_file = base64.b64encode(bytes(file_to_copy, 'utf-8')).decode("utf-8")
+    else:
+        content_file = appfile
         
     # add file to repo
     contents_file = json.dumps({'path': appfile,
                      'message':'replicated file from app',
-                     'content': base64.b64encode(bytes(file_to_copy, 'utf-8')).decode("utf-8")})
+                     'content': contents_file})
     create_file_response = requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, appfile), headers=headers, data=contents_file)
     return create_file_response
 
