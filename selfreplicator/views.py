@@ -66,7 +66,7 @@ def replicate_file(appfile, username, headers):
     # add file to repo
     content_data = json.dumps({'path': appfile,
                      'message':'replicated file from app',
-                     'content': content_data})
+                     'content': content_file})
     create_file_response = requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, appfile), headers=headers, data=content_data)
     return create_file_response
 
