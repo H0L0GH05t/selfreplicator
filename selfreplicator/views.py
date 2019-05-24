@@ -54,12 +54,13 @@ def get_authenticated_user(headers, result_msgs, result_status):
     return username, result_msgs, result_status
 
 def replicate_file(appfile, username, headers):
-    with open(appfile) as f:
-        file_to_copy = f.read()
-    # encode file to be pushed to repo
-    # set up content to
-    #file_to_copy.decode("utf-8")
-    #base64.b64encode(bytes(file_to_copy, 'utf-8'))
+    
+    # open files (not dirs)
+    if '.' in appfile:
+        with open(appfile) as f:
+            file_to_copy = f.read()
+        
+    # add file to repo
     contents_file = json.dumps({'path': appfile,
                      'message':'replicated file from app',
                      'content': base64.b64encode(bytes(file_to_copy, 'utf-8')).decode("utf-8")})
