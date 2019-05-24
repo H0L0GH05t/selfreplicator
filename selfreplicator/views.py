@@ -59,9 +59,10 @@ def replicate_file(appfile, username, headers):
     # encode file to be pushed to repo
     # set up content to
     #file_to_copy.decode("utf-8")
+    #base64.b64encode(bytes(file_to_copy, 'utf-8'))
     contents_file = {'path': appfile,
                      'message':'replicated file from app',
-                     'content': base64.b64encode(bytes(file_to_copy, 'utf-8'))}
+                     'content': base64.b64encode(file_to_copy)}
     create_file_response = requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, appfile), headers=headers, data=json.dumps(contents_file))
     return create_file_response
 
