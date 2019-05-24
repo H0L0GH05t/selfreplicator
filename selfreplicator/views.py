@@ -11,8 +11,75 @@ def index(request):
 
 def results(request):
     
-    # List of files in the app we need to replicate
-    appfiles = [
+    result_msgs = []
+    result_status = "success" #TODO: make this an int
+    created_repo_link = ""
+    # get the code to exchange for an access token
+    code_for_token = request.GET.get('code')
+
+    # exchange the code for an access token
+    auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token})
+    if (auth_response.status_code == 200) or (auth_response.status_code == 201):
+        result_msgs.append("Successfully obtained access token from GitHub")
+        # access_token = auth_response.json('access_token')
+        access_token = auth_response.text.split('&')[0].replace('access_token=', '')
+            
+        # create new repo in user's GitHub account
+        result_status, result_msgs, created_repo_link = create_repo(access_token, result_msgs)
+            
+    else:
+         # Record the authentication error message
+        result_msgs.append("There was a problem with authentication - Response: %s" % auth_response.text)
+        result_status = "error"
+    
+    # render the results page with the status, and link to user's authorization for this app
+    return render(request, "results.html", {'client_id': settings.CLIENT_ID,
+                                            'result_status': result_status,
+                                            'results_msgs': result_msgs,
+                                            'created_repo_link': created_repo_link,})
+
+# def get_authenticated_user(access_token):
+def get_authenticated_user(headers, result_msgs, result_status):
+    username = ''
+    # get the authenticated user's username
+    username_response = requests.get('https://api.github.com/user', headers=headers)
+    # username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
+    if username_response.status_code == 200:
+        username = username_response.json().get('login')
+        result_msgs.append("Successfully found user profile %s from GitHub" % username)
+    else:
+        # record the get user error message
+        result_msgs.append("There was a problem with finding your profile: got status code %s" % username_response.status_code)
+        result_status = "error"
+    return username, result_msgs, result_status
+
+def replicate_file(appfile, username, headers):
+    with open(appfile) as f:
+        file_to_copy = f.read()
+    # encode file to be pushed to repo
+    # set up content to
+    #file_to_copy.decode("utf-8")
+    contents_file = {'path': appfile,
+                     'message':'replicated file from app',
+                     'content': base64.b64encode(bytes(file_to_copy, 'utf-8'))}
+    create_file_response = requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, appfile), headers=headers, data=json.dumps(contents_file))
+    return create_file_response
+
+def create_repo(access_token, result_msgs):    
+    created_repo_link = ''
+    # create new repo in user's GitHub account
+    headers = {'Authorization' : 'token %s' % access_token}
+    data = {'name': 'selfreplicatingapp',
+            'description': 'This is an app that creates a copy of itself as a repo on github.',
+            'homepage': 'selfreplicator.herokuapp.com',
+            'auto_init': False}
+    create_repo_response = requests.post('https://api.github.com/user/repos', headers=headers, data=json.dumps(data))
+    if create_repo_response.status_code == 201:
+        result_status = "success"
+        result_msgs.append("successfully created new repo")
+        
+        # List of files in the app we need to replicate
+        appfiles = [
         'Procfile',                                 #gunicorn procfile
         'staticfiles',                              # empty dir to collect static with whitenoise
         'Procfile.windows',                         # gunicorn for local windows
@@ -41,120 +108,21 @@ def results(request):
         'githubapps/settings.py',                   # django: settings for project
         'githubapps/urls.py',                       # django: url paths to use
         'githubapps/wsgi.py']                       # django: wsgi settings for app
-    
-    username = "Not found"
-    result_msgs = []
-    result_status = "success" #TODO: make this an int
-    created_repo_link = ""
-    test = 'TEST' #TODO: remove
-    # get the code to exchange for an access token
-    code_for_token = request.GET.get('code')
-
-    # exchange the code for an access token
-    auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token})
-    if (auth_response.status_code == 200) or (auth_response.status_code == 201):
-        result_msgs.append("Successfully obtained access token from GitHub")
-        # access_token = auth_response.json('access_token')
-        access_token = auth_response.text.split('&')[0].replace('access_token=', '')
-            
-        # create new repo in user's GitHub account
-        headers = {'Authorization' : 'token %s' % access_token}
-        data = {'name': 'selfreplicatingapp',
-                'description': 'This is an app that creates a copy of itself as a repo on github.',
-                'homepage': 'selfreplicator.herokuapp.com',
-                'auto_init': False}
-        create_repo_response = requests.post('https://api.github.com/user/repos', headers=headers, data=json.dumps(data))
-        test = create_repo_response.json().get('location')
-        if create_repo_response.status_code == 201:
-            result_status = "success"
-            result_msgs.append("successfully created new repo")
-            # created_repo_link = create_repo_response.json().get('location')
-            
-            for appfile in appfiles:
-                if os.path.exists(appfile):
-                    result_msgs.append("found file: %s" % appfile)
-            result_msgs.append("finished file verification")
-                    
-            
-        else:
-            # record repo creation error message
-            result_status = "error"
-            result_msgs.append("Failed to create new repo in user's GitHub account - Response: %s" % create_repo_response.text)
-            
-    else:
-         # Record the authentication error message
-        result_msgs.append("There was a problem with authentication - Response: %s" % auth_response.text)
-        result_status = "error"
-        
-        # try:
-        # create the new repo and push the app files to it
-        #   result_status, result_msgs, created_repo_link, result_status = create_repo(auth_token, username, result_msgs)
-        # except:
-        #     result_status = "error"
-        #     result_msgs.append("Failed to create repo in user %s's public repos" % username)
-    
-    # render the results page with the status, and link to user's authorization for this app
-    return render(request, "results.html", {'client_id': settings.CLIENT_ID,
-                                            'result_status': result_status,
-                                            'results_msgs': result_msgs,
-                                            'created_repo_link': created_repo_link,
-                                            'code': test})
-
-# def get_authenticated_user(access_token):
-def get_authenticated_user(headers):
-    username = ''
-    # get the authenticated user's username
-    username_response = requests.get('https://api.github.com/user', headers=headers)
-    # username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
-    if username_response.status_code == 200:
-        username = username_response.json().get('login')
-        result_msgs.append("Successfully found user profile %s from GitHub" % username)
-    else:
-        # record the get user error message
-        result_msgs.append("There was a problem with finding your profile: got status code %s" % username_response.status_code)
-        result_status = "error"
-    return username
-
-def replicate_file(file_to_copy, username):
-    
-    # encode file to be pushed to repo
-    file_to_copy = base64.b64encode(bytes(file_to_copy, 'utf-8'))
-    # set up content to 
-    contents_file = {'path': filepath,
-                     'message':'replicated file',
-                     'content': file_to_copy.decode("utf-8"),}
-    requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, json.dumps(contents_file)))
-
-def create_repo(auth_token, result_msgs):    
-    created_repo_link = ''
-    # create new repo in user's GitHub account
-    headers = {'Authorization' : 'token %s' % access_token}
-    data = {'name': 'selfreplicatingapp',
-            'description': 'This is an app that creates a copy of itself as a repo on github.',
-            'homepage': 'selfreplicator.herokuapp.com',
-            'auto_init': False}
-    create_repo_response = requests.post('https://api.github.com/user/repos', headers=headers, data=json.dumps(data))
-    test = create_repo_response.json().get('location')
-    if create_repo_response.status_code == 201:
-        result_status = "success"
-        result_msgs.append("successfully created new repo")
-        # created_repo_link = create_repo_response.location
         
         # get username so we can push files to the new repo
-        username = get_authenticated_user(headers)
+        username, result_msgs, result_status = get_authenticated_user(headers, result_msgs, result_status)
+        created_repo_link = "https://github.com/%s/selfreplicatingapp" % username
         
         for appfile in appfiles:
             if os.path.exists(appfile):
-                result_msgs.append("found file: %s" % appfile)
-        result_msgs.append("finished file verification")
-        
-        
-        replicate_file(appfile, username)
-                
+                create_file_response = replicate_file(appfile, username, headers)
+                result_msgs.append("Copy file: %s -- %s" % (appfile, ("success" if create_file_response.status_code == 201 else "failed: %s" % create_file_response.text)))
+            else:
+                result_msgs.append("!! Missing file: %s" % appfile)
         
     else:
         # record repo creation error message
         result_status = "error"
         result_msgs.append("Failed to create new repo in user's GitHub account - Response: %s" % create_repo_response.text)
             
-    return result_status, result_msgs, created_repo_link, response.status_code
+    return result_status, result_msgs, created_repo_link
