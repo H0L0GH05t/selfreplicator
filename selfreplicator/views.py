@@ -72,7 +72,7 @@ def get_authenticated_user(headers, result_msgs, result_status):
 def replicate_file(appfile, username, headers):
     
     if '.' in appfile:
-        with open(appfile) as f:
+        with open(appfile, 'rb') as f:
             file_to_copy = f.read()
     else:
         file_to_copy = appfile
