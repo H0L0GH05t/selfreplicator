@@ -48,7 +48,7 @@ def file_is_text_or_dir(filename):
                 'css',
                 'js']
         file_ext = filename.rsplit('.',1)[1]
-        if file_ext in image_ext:
+        if file_ext in exts:
             return True
     else:
         return True
