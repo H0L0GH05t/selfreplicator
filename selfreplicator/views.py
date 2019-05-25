@@ -74,6 +74,8 @@ def replicate_file(appfile, username, headers):
     if '.' in appfile:
         with open(appfile) as f:
             file_to_copy = f.read()
+    else:
+        file_to_copy = appfile
             
     if file_is_text_or_dir(appfile):
         # only utf-8 decode text files
