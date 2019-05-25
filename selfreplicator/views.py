@@ -37,6 +37,20 @@ def results(request):
                                             'result_status': result_status,
                                             'results_msgs': result_msgs,
                                             'created_repo_link': created_repo_link,})
+def file_is_text(filename):
+    if '.' in filename:
+        exts = ['json',
+                'py',
+                'txt',
+                'md',
+                'windows',
+                'html',
+                'css',
+                'js']
+        file_ext = filename.rsplit('.',1)[1]
+        if file_ext in image_ext:
+            return True
+    return False
 
 # def get_authenticated_user(access_token):
 def get_authenticated_user(headers, result_msgs, result_status):
@@ -56,12 +70,16 @@ def get_authenticated_user(headers, result_msgs, result_status):
 def replicate_file(appfile, username, headers):
     
     # open files (not dirs)
-    if '.' in appfile:
-        with open(appfile) as f:
+    with open(appfile) as f:
             file_to_copy = f.read()
-            content_file = base64.b64encode(bytes(file_to_copy, 'utf-8')).decode("utf-8")
+            
+    if file_is_text(appfile):
+        # only utf-8 decode text files
+        content_file = base64.b64encode(bytes(file_to_copy, 'utf-8')).decode("utf-8")
+    elif '.' in appfile:
+        content_file = base64.b64encode(bytes(file_to_copy, 'utf-8'))
     else:
-        content_file = appfile
+        content_file = file_to_copy
         
     # add file to repo
     content_data = json.dumps({'path': appfile,
@@ -84,35 +102,34 @@ def create_repo(access_token, result_msgs):
         result_msgs.append("successfully created new repo")
         
         # List of files in the app we need to replicate
-        appfiles = [
-        'Procfile',                                 #gunicorn procfile
-        'staticfiles',                              # empty dir to collect static with whitenoise
-        'Procfile.windows',                         # gunicorn for local windows
-        'README.md',                                # github: documentation
-        'requirements.txt',                         # list of all required libraries for python
-        'runtime.txt',                              # version of python to use at runtime
-        # 'db.sqlite3',                             # database file
-        'selfreplicator',                           # django app root folder
-        'selfreplicator/admin.py',                  # django: django admin page
-        'selfreplicator/__init__.py',               # django: generated init
-        'selfreplicator/apps.py',                   # django: generated app config
-        'selfreplicator/models.py',                 # django: model objects
-        'selfreplicator/views.py',                  # django: code each page view in urls
-        'selfreplicator/static',                    # static file location
-        'selfreplicator/static/app-logo.png',       # custom logo
-        'selfreplicator/static/selfreplicator.js',  # script for entire site
-        'selfreplicator/static/style.css',          # styles for entire site
-        'selfreplicator/templates',                 # folder for html django templates
-        'selfreplicator/templates/base.html',       # contains the base html for the site
-        'selfreplicator/templates/index.html',      # home page
-        'selfreplicator/templates/results.html',    # will show results message
-        'githubapps',                               # django project root folder
-        'githubapps/static',                        # empty static dir
-        'githubapps/static/humans.txt',             # blank file so dir is not empty
-        'githubapps/__init__.py',                   # django: generated init file
-        'githubapps/settings.py',                   # django: settings for project
-        'githubapps/urls.py',                       # django: url paths to use
-        'githubapps/wsgi.py']                       # django: wsgi settings for app
+        appfiles = ['Procfile',                                 #gunicorn procfile
+                    'staticfiles',                              # empty dir to collect static with whitenoise
+                    'Procfile.windows',                         # gunicorn for local windows
+                    'README.md',                                # github: documentation
+                    'requirements.txt',                         # list of all required libraries for python
+                    'runtime.txt',                              # version of python to use at runtime
+                    # 'db.sqlite3',                             # database file
+                    'selfreplicator',                           # django app root folder
+                    'selfreplicator/admin.py',                  # django: django admin page
+                    'selfreplicator/__init__.py',               # django: generated init
+                    'selfreplicator/apps.py',                   # django: generated app config
+                    'selfreplicator/models.py',                 # django: model objects
+                    'selfreplicator/views.py',                  # django: code each page view in urls
+                    'selfreplicator/static',                    # static file location
+                    'selfreplicator/static/app-logo.png',       # custom logo
+                    'selfreplicator/static/selfreplicator.js',  # script for site
+                    'selfreplicator/static/selfreplicator.css', # styles for site
+                    'selfreplicator/templates',                 # folder for html django templates
+                    'selfreplicator/templates/base.html',       # contains the base html for the site
+                    'selfreplicator/templates/index.html',      # home page
+                    'selfreplicator/templates/results.html',    # will show results message
+                    'githubapps',                               # django project root folder
+                    'githubapps/static',                        # empty static dir
+                    'githubapps/static/humans.txt',             # blank file so dir is not empty
+                    'githubapps/__init__.py',                   # django: generated init file
+                    'githubapps/settings.py',                   # django: settings for project
+                    'githubapps/urls.py',                       # django: url paths to use
+                    'githubapps/wsgi.py']                       # django: wsgi settings for app
         
         # get username so we can push files to the new repo
         username, result_msgs, result_status = get_authenticated_user(headers, result_msgs, result_status)
