@@ -105,28 +105,28 @@ def create_repo(access_token, result_msgs):
         
         # List of files in the app we need to replicate
         appfiles = ['Procfile',                                 #gunicorn procfile
-                    'staticfiles',                              # empty dir to collect static with whitenoise
+                    # 'staticfiles',                              # empty dir to collect static with whitenoise
                     'Procfile.windows',                         # gunicorn for local windows
                     'README.md',                                # github: documentation
                     'requirements.txt',                         # list of all required libraries for python
                     'runtime.txt',                              # version of python to use at runtime
                     # 'db.sqlite3',                             # database file
-                    'selfreplicator',                           # django app root folder
+                    # 'selfreplicator',                           # django app root folder
                     'selfreplicator/admin.py',                  # django: django admin page
                     'selfreplicator/__init__.py',               # django: generated init
                     'selfreplicator/apps.py',                   # django: generated app config
                     'selfreplicator/models.py',                 # django: model objects
                     'selfreplicator/views.py',                  # django: code each page view in urls
-                    'selfreplicator/static',                    # static file location
+                    # 'selfreplicator/static',                    # static file location
                     'selfreplicator/static/app-logo.png',       # custom logo
                     'selfreplicator/static/selfreplicator.js',  # script for site
                     'selfreplicator/static/selfreplicator.css', # styles for site
-                    'selfreplicator/templates',                 # folder for html django templates
+                    # 'selfreplicator/templates',                 # folder for html django templates
                     'selfreplicator/templates/base.html',       # contains the base html for the site
                     'selfreplicator/templates/index.html',      # home page
                     'selfreplicator/templates/results.html',    # will show results message
-                    'githubapps',                               # django project root folder
-                    'githubapps/static',                        # empty static dir
+                    # 'githubapps',                               # django project root folder
+                    # 'githubapps/static',                        # empty static dir
                     'githubapps/static/humans.txt',             # blank file so dir is not empty
                     'githubapps/__init__.py',                   # django: generated init file
                     'githubapps/settings.py',                   # django: settings for project
