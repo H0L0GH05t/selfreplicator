@@ -75,13 +75,13 @@ def replicate_file(appfile, username, headers):
         with open(appfile, 'rb') as f:
             file_to_copy = f.read()
     else:
-        file_to_copy = appfile
+        file_to_copy = bytes(appfile, 'utf-8')
             
     if file_is_text_or_dir(appfile):
         # only utf-8 decode text files
-        content_file = base64.b64encode(file_to_copy)
+        content_file = base64.b64encodefile_to_copy).decode("utf-8")
     else:
-        content_file = base64.b64encode(file_to_copy, 'utf-8')
+        content_file = base64.b64encode(file_to_copy)
         
     # add file to repo
     content_data = json.dumps({'path': appfile,
