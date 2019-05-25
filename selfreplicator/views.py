@@ -37,7 +37,7 @@ def results(request):
                                             'result_status': result_status,
                                             'results_msgs': result_msgs,
                                             'created_repo_link': created_repo_link,})
-def file_is_text(filename):
+def file_is_text_or_dir(filename):
     if '.' in filename:
         exts = ['json',
                 'py',
@@ -50,6 +50,8 @@ def file_is_text(filename):
         file_ext = filename.rsplit('.',1)[1]
         if file_ext in image_ext:
             return True
+    else:
+        return True
     return False
 
 # def get_authenticated_user(access_token):
@@ -69,11 +71,10 @@ def get_authenticated_user(headers, result_msgs, result_status):
 
 def replicate_file(appfile, username, headers):
     
-    # open files (not dirs)
     with open(appfile) as f:
-            file_to_copy = f.read()
+        file_to_copy = f.read()
             
-    if file_is_text(appfile):
+    if file_is_text_or_dir(appfile):
         # only utf-8 decode text files
         content_file = base64.b64encode(bytes(file_to_copy, 'utf-8')).decode("utf-8")
     else:
