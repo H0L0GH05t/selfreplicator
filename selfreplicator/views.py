@@ -71,8 +71,9 @@ def get_authenticated_user(headers, result_msgs, result_status):
 
 def replicate_file(appfile, username, headers):
     
-    with open(appfile) as f:
-        file_to_copy = f.read()
+    if '.' in appfile:
+        with open(appfile) as f:
+            file_to_copy = f.read()
             
     if file_is_text_or_dir(appfile):
         # only utf-8 decode text files
