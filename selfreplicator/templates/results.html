@@ -29,19 +29,21 @@
       {% endif %}
     </div>
   </div>
-  <div class="containter">
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/settings/connections/applications/{{ client_id }}">
-       <span class="execute-btn-text" > Review your authorized apps on GitHub</span>
-    </a>
-  </div>
-  <div class="containter">
-    <div class="logbox">
-      <h3>Log:</h3>
-      <ul>
-        {% for item in results_msgs %}
-        <li class="status-msg">{{item}}</li>
-        {% endfor %}
-      </ul>
-    </div>
 </div>
+<div class="containter">
+  <a type="button" class="btn btn-lg btn-primary" href="https://github.com/settings/connections/applications/{{ client_id }}">
+     <span class="execute-btn-text" > Review your authorized apps on GitHub</span>
+  </a>
+</div>
+<div class="containter">
+  <div class="logbox">
+    <h3>Log:</h3>
+    <ul>
+      {% for item in results_msgs %}
+      <li class="status-msg">{{item}}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
 {% endblock %}
