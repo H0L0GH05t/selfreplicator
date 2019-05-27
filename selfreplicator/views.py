@@ -38,7 +38,7 @@ def results(request):
     success_result = "display:none;"
     if result_status == "success":
         success_result = "display:block;"
-    if result_status == "success":
+    if result_status == "warning":
         warn_result = "display:block;"
     if result_status == "error":
         error_result = "display:block;"
