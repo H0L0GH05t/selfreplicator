@@ -5,7 +5,7 @@ def create_settings():
     new_secret_key = generate_secret_key()
     
     try:
-        with open('settings.py', 'r') as f:
+        with open('settings-template.py', 'r') as f:
             settings_file = f.read()
             
         settings_file = settings_file.replace("SECRET_KEY = ''", "SECRET_KEY = '%s'" % new_secret_key)
