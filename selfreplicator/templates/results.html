@@ -10,19 +10,19 @@
     </a>
     <h1>Results</h1>
     <div class="containter">
-      <div class="success {{success_result}}">
+      <div class="success" style={{success_result}}>
         <h3>Success!</h3>
         <p>A new repo has been successfully created in your account containing this app's code</p>
       </div>
-      <div class="warning {{warn_result}}">
+      <div class="warning" style={{warn_result}}>
         <h3>Warning!</h3>
         <p>A new repo has been created successfully, but there was a problem with pushing some files to it.</p>
         <p>See the log below for details.</p>
       </div>
-      <div class="error {{error_result}}">
+      <div class="error" style={{error_result}}>
         <h3>Error!</h3>
         <p>An error has occured that has prevented the repo from being created.</p>
-        <p>See the log below for details.</p>
+        <p>See the log below for details.</p
       </div>
       {% if created_repo_link  %}
       <a type="button" class="btn btn-lg btn-primary" href="{{created_repo_link}}"><span class="glyphicon glyphicon-download"></span> View your new repo in GitHub!</a>
