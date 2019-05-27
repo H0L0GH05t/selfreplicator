@@ -9,23 +9,19 @@
       <img src="{% static 'app-logo.png'%}">
     </a>
     <h1>Results</h1>
-    <div class="success" style={{success_result}}>
-      <h3>Success!</h3>
-      <p>A new repo has been successfully created in your account containing this app's code</p>
-    </div>
-    <div class="warning" style={{warn_result}}>
-      <h3>Warning!</h3>
-      <p>A new repo has been created successfully, but there was a problem with pushing some files to it.</p>
-      <p>See the log below for details.</p>
-    </div>
-    <div class="error" style={{error_result}}>
-      <h3>Error!</h3>
-      <p>An error has occured that has prevented the repo from being created.</p>
-      <p>See the log below for details.</p
-    </div>
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/settings/connections/applications/{{ client_id }}">
-       <span class="execute-btn-text" > Review your authorized apps on GitHub</span>
-    </a>
+
+    <h3 style={{success_result}}>Success!</h3>
+    <p style={{success_result}}>A new repo has been successfully created in your account containing this app's code</p>
+
+    <h3 style={{warn_result}}>Warning!</h3>
+    <p style={{warn_result}}>A new repo has been created successfully, but there was a problem with pushing some files to it. See the log below for details.</p>
+
+    <h3 style={{error_result}}>Error!</h3>
+    <p style={{error_result}}>An error has occured that has prevented the repo from being created. See the log below for details.</p>
+
+    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/settings/connections/applications/{{ client_id }}"> Review your authorized apps</a>
+    <a type="button" class="btn btn-lg btn-primary" href="{{created_repo_link}}"> View your new repo</a>
+    
     <div class="logbox">
       <h3>Log:</h3>
       <ul>

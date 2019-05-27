@@ -103,9 +103,9 @@ body{
     color: white;
     font-size: 16px;
     padding: 25px;
-    display: inline-block;
-    width: 60%;
-    height: 200px;
+    display: block;
+    /*width: 60%;*/
+    /*height: 200px;*/
     margin-top: 25px;
     margin-bottom: 25px;
     text-align: left;
