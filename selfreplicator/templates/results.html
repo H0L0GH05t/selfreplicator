@@ -10,20 +10,38 @@
     </a>
     <h1>Results</h1>
     <div class="containter">
-      <p class="">{{code}}</p>
-      <p class="">{{result_status}}</p>
-      <ul>
-        {% for item in results_msgs %}
-        <li class="status-msg">{{item}}</li>
-        {% endfor %}
-      </ul>
+      <div class="success {{success_result}}">
+        <h3>Success!</h3>
+        <p>A new repo has been successfully created in your account containing this app's code</p>
+      </div>
+      <div class="warning {{warn_result}}">
+        <h3>Warning!</h3>
+        <p>A new repo has been created successfully, but there was a problem with pushing some files to it.</p>
+        <p>See the log below for details.</p>
+      </div>
+      <div class="error {{error_result}}">
+        <h3>Error!</h3>
+        <p>An error has occured that has prevented the repo from being created.</p>
+        <p>See the log below for details.</p>
+      </div>
       {% if created_repo_link  %}
       <a type="button" class="btn btn-lg btn-primary" href="{{created_repo_link}}"><span class="glyphicon glyphicon-download"></span> View your new repo in GitHub!</a>
       {% endif %}
     </div>
   </div>
   <div class="containter">
-    <span class="glyphicon glyphicon-info execute-btn-text"> To review or revoke this app's access,<a href="https://github.com/settings/connections/applications/{{ client_id }}"> click here </a>to go to your account's authorized apps page.</span>
+    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/settings/connections/applications/{{ client_id }}">
+       <span class="execute-btn-text" > Review your authorized apps on GitHub</span>
+    </a>
   </div>
+  <div class="containter">
+    <div class="logbox">
+      <h3>Log:</h3>
+      <ul>
+        {% for item in results_msgs %}
+        <li class="status-msg">{{item}}</li>
+        {% endfor %}
+      </ul>
+    </div>
 </div>
 {% endblock %}

@@ -12,7 +12,7 @@ def index(request):
 def results(request):
     
     result_msgs = []
-    result_status = "success" #TODO: make this an int
+    result_status = "error"
     created_repo_link = ""
     # get the code to exchange for an access token
     code_for_token = request.GET.get('code')
@@ -26,33 +26,30 @@ def results(request):
             
         # create new repo in user's GitHub account
         result_status, result_msgs, created_repo_link = create_repo(access_token, result_msgs)
-            
+        result_status = "success"
     else:
          # Record the authentication error message
         result_msgs.append("There was a problem with authentication - Response: %s" % auth_response.text)
         result_status = "error"
     
+    #Select the correct results message to display
+    error_result = "display:none;"
+    warn_result = "display:none;"
+    success_result = "display:none;"
+    if results_status == "success":
+        success_result = "display:block;"
+    if results_status == "success":
+        warn_result = "display:block;"
+    if results_status == "error":
+        error_result = "display:block;"
+    
     # render the results page with the status, and link to user's authorization for this app
     return render(request, "results.html", {'client_id': settings.CLIENT_ID,
-                                            'result_status': result_status,
+                                            'success_result': success_result,
+                                            'warn_result': warn_result,
+                                            'error_result': error_result,
                                             'results_msgs': result_msgs,
                                             'created_repo_link': created_repo_link,})
-def file_is_text_or_dir(filename):
-    if '.' in filename:
-        exts = ['json',
-                'py',
-                'txt',
-                'md',
-                'windows',
-                'html',
-                'css',
-                'js']
-        file_ext = filename.rsplit('.',1)[1]
-        if file_ext in exts:
-            return True
-    else:
-        return True
-    return False
 
 # def get_authenticated_user(access_token):
 def get_authenticated_user(headers, result_msgs, result_status):
@@ -63,6 +60,7 @@ def get_authenticated_user(headers, result_msgs, result_status):
     if username_response.status_code == 200:
         username = username_response.json().get('login')
         result_msgs.append("Successfully found user profile %s from GitHub" % username)
+        result_status = "success"
     else:
         # record the get user error message
         result_msgs.append("There was a problem with finding your profile: got status code %s" % username_response.status_code)
@@ -76,12 +74,8 @@ def replicate_file(appfile, username, headers):
             file_to_copy = f.read()
     else:
         file_to_copy = bytes(appfile, 'utf-8')
-            
-    if file_is_text_or_dir(appfile):
-        # only utf-8 decode text files
-        content_file = base64.b64encode(file_to_copy).decode("utf-8")
-    else:
-        content_file = base64.b64encode(file_to_copy).decode("utf-8")
+        
+    content_file = base64.b64encode(file_to_copy).decode("utf-8")
         
     # add file to repo
     content_data = json.dumps({'path': appfile,
@@ -92,6 +86,7 @@ def replicate_file(appfile, username, headers):
 
 def create_repo(access_token, result_msgs):    
     created_repo_link = ''
+    
     # create new repo in user's GitHub account
     headers = {'Authorization' : 'token %s' % access_token}
     data = {'name': 'selfreplicatingapp',
@@ -99,34 +94,29 @@ def create_repo(access_token, result_msgs):
             'homepage': 'selfreplicator.herokuapp.com',
             'auto_init': False}
     create_repo_response = requests.post('https://api.github.com/user/repos', headers=headers, data=json.dumps(data))
+    
     if create_repo_response.status_code == 201:
         result_status = "success"
-        result_msgs.append("successfully created new repo")
+        result_msgs.append("Successfully created new repo")
         
         # List of files in the app we need to replicate
         appfiles = ['Procfile',                                 #gunicorn procfile
-                    # 'staticfiles',                              # empty dir to collect static with whitenoise
                     'Procfile.windows',                         # gunicorn for local windows
                     'README.md',                                # github: documentation
                     'requirements.txt',                         # list of all required libraries for python
                     'runtime.txt',                              # version of python to use at runtime
                     # 'db.sqlite3',                             # database file
-                    # 'selfreplicator',                           # django app root folder
                     'selfreplicator/admin.py',                  # django: django admin page
                     'selfreplicator/__init__.py',               # django: generated init
                     'selfreplicator/apps.py',                   # django: generated app config
                     'selfreplicator/models.py',                 # django: model objects
                     'selfreplicator/views.py',                  # django: code each page view in urls
-                    # 'selfreplicator/static',                    # static file location
                     'selfreplicator/static/app-logo.png',       # custom logo
                     'selfreplicator/static/selfreplicator.js',  # script for site
                     'selfreplicator/static/selfreplicator.css', # styles for site
-                    # 'selfreplicator/templates',                 # folder for html django templates
                     'selfreplicator/templates/base.html',       # contains the base html for the site
                     'selfreplicator/templates/index.html',      # home page
                     'selfreplicator/templates/results.html',    # will show results message
-                    # 'githubapps',                               # django project root folder
-                    # 'githubapps/static',                        # empty static dir
                     'githubapps/static/humans.txt',             # blank file so dir is not empty
                     'githubapps/__init__.py',                   # django: generated init file
                     'githubapps/settings.py',                   # django: settings for project
@@ -143,6 +133,7 @@ def create_repo(access_token, result_msgs):
                 result_msgs.append("Copy file: %s -- %s" % (appfile, ("success" if create_file_response.status_code == 201 else "failed: %s" % create_file_response.text)))
             else:
                 result_msgs.append("!! Missing file: %s" % appfile)
+                result_status = "warning"
         
     else:
         # record repo creation error message

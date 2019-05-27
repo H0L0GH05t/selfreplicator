@@ -18,5 +18,4 @@ urlpatterns = [
     path("", selfreplicator.views.index, name="index"),
     path("results/", selfreplicator.views.results, name="results"),
     path("admin/", admin.site.urls),
-    path(r'^favicon.ico$', RedirectView.as_view(url='/static/favicon/favicon.ico')),
 ]
