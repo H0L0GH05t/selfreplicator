@@ -36,11 +36,11 @@ def results(request):
     error_result = "display:none;"
     warn_result = "display:none;"
     success_result = "display:none;"
-    if results_status == "success":
+    if result_status == "success":
         success_result = "display:block;"
-    if results_status == "success":
+    if result_status == "success":
         warn_result = "display:block;"
-    if results_status == "error":
+    if result_status == "error":
         error_result = "display:block;"
     
     # render the results page with the status, and link to user's authorization for this app
