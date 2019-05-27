@@ -50,7 +50,7 @@ body{
   overflow: hidden;
   background-color: #0F0F0F;
   width: 100%;
-  margin-left: 10px;
+  /*margin-left: 10px;*/
 }
 
 /* Style the buttons that are used to open the tab content */
