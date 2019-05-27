@@ -13,7 +13,6 @@ def results(request):
     
     result_msgs = []
     result_status = "error"
-    created_repo_link = ""
     # get the code to exchange for an access token
     code_for_token = request.GET.get('code')
 
@@ -25,7 +24,7 @@ def results(request):
         access_token = auth_response.text.split('&')[0].replace('access_token=', '')
             
         # create new repo in user's GitHub account
-        result_status, result_msgs, created_repo_link = create_repo(access_token, result_msgs)
+        result_status, result_msgs = create_repo(access_token, result_msgs)
         result_status = "success"
     else:
          # Record the authentication error message
@@ -48,8 +47,7 @@ def results(request):
                                             'success_result': success_result,
                                             'warn_result': warn_result,
                                             'error_result': error_result,
-                                            'results_msgs': result_msgs,
-                                            'created_repo_link': created_repo_link,})
+                                            'results_msgs': result_msgs,})
 
 # def get_authenticated_user(access_token):
 def get_authenticated_user(headers, result_msgs, result_status):
@@ -85,7 +83,6 @@ def replicate_file(appfile, username, headers):
     return create_file_response
 
 def create_repo(access_token, result_msgs):    
-    created_repo_link = ''
     
     # create new repo in user's GitHub account
     headers = {'Authorization' : 'token %s' % access_token}
@@ -125,7 +122,6 @@ def create_repo(access_token, result_msgs):
         
         # get username so we can push files to the new repo
         username, result_msgs, result_status = get_authenticated_user(headers, result_msgs, result_status)
-        created_repo_link = "https://github.com/%s/selfreplicatingapp" % username
         
         for appfile in appfiles:
             if os.path.exists(appfile):
@@ -140,4 +136,4 @@ def create_repo(access_token, result_msgs):
         result_status = "error"
         result_msgs.append("Failed to create new repo in user's GitHub account - Response: %s" % create_repo_response.text)
             
-    return result_status, result_msgs, created_repo_link
+    return result_status, result_msgs
