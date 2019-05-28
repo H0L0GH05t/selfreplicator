@@ -17,6 +17,7 @@ ECHO Moved to work from %CD%
 python -m venv venv
 
 ECHO Created python virtual environment
+ECHO Press any key to continue to installing python libraries
 PAUSE
 
 venv\Scripts\activate.bat
