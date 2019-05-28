@@ -19,9 +19,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = ''
 
-# IDs assigned from GitHub after registering oauth app
-CLIENT_ID = 'REPLACE WITH CLIENT ID ON GITHUB'
-CLIENT_SECRET = 'REPLACE WITH CLIENT SECRET ID ON GITHUB'
+CLIENT_ID = ''
+CLIENT_SECRET = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -48,6 +47,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    #"django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -80,6 +80,7 @@ WSGI_APPLICATION = "githubapps.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'selfreplicator',
         'CONN_MAX_AGE': 500,
     }
 }
@@ -122,10 +123,13 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
-# Extra places for collectstatic to find static files.
+# list of dirs for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'selfreplicator/static'),
     )
+
+#  Add configuration for static files storage using whitenoise
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url

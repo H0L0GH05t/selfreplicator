@@ -23,7 +23,7 @@ CLIENT_ID = 'c66f4b201302de0cfe4e'
 CLIENT_SECRET = '0f6d446961bb7fbf18bea94461fbb3f1891afdb9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['herokudjangoapp.herokuapp.com']
 
@@ -77,17 +77,10 @@ WSGI_APPLICATION = "githubapps.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# for local
-# DATABASES = {
-    # "default": {
-        # "ENGINE" : "django.db.backends.sqlite3",
-        # "NAME": os.path.join(BASE_DIR, "db.sqlite3")
-    # }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        #'NAME': '',
+        'NAME': 'selfreplicator',
         'CONN_MAX_AGE': 500,
     }
 }
@@ -130,9 +123,9 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
-# Extra places for collectstatic to find static files.
+# list of dirs for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'selfreplicator/static'),
     )
 
 #  Add configuration for static files storage using whitenoise

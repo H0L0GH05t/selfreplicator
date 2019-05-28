@@ -3,7 +3,7 @@
 <head>
 <title>Self-replicating App</title>
   {% load static %}
-  <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
+  <link rel="shortcut icon" href="{%  static 'favicon.ico' type='image/x-icon'%}">
   <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="{% static 'selfreplicator.css' %}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -28,48 +28,82 @@
     <!-- Tab content -->
     <div id="requirements" class="tabcontent">
       <h3><span class="glyphicon glyphicon-exclamation-sign"></span> Requirements:</h3>
-      <p>When creating a Python environment, or deploying to Heroku, these required python libraries will be installed automatically from requirements.txt</p>
-      <p>Note: The python libraries will also install their own required libraries.</p>
+      <p>In order to run this app, you will first need to install Python 3.7 and a few libraries.</p>
+      <p>When installing the app, the following libraries from requirements.txt will be installed:</p>
       <ul>
-        <li>Python 3.7</li>
         <li>Django 2.2.1</li>
-        <li>To deploy with Heroku: gunicorn 19.9.0</li>
-        <li>To deploy with Heroku: django-heroku 0.3.1</li>
+        <li>gunicorn 19.9.0</li>
+        <li>django-heroku 0.3.1</li>
+        <li>requests 2.22.0</li>
       </ul>
+      <p>These python libraries will also install their own required libraries, listed below:</p>
+      <ul>
+        <li>certifi 2019.3.9</li>
+        <li>chardet 3.0.4</li>
+        <li>dj-database-url 0.5.0</li>
+        <li>idna 2.8</li>
+        <li>psycopg2 2.8.2</li>
+        <li>pytz 2019.1</li>
+        <li>sqlparse 0.3.0</li>
+        <li>urllib3 1.25.3</li>
+        <li>whitenoise 4.1.2</li>
+      </ul>
+      <p>To run the app from Heroku (as it is running here), you will also need:</p>
+      <ul>
+        <li>Postgres</li>
+        <li>A Heroku account</li>
+        <li>heroku-postgresql add on</li>
+        <li>Heroku CLI</li>
+      </ul>
+      <p>For more details, see Installation.</p>
     </div>
     <div id="installation" class="tabcontent">
     <!--<div class="col-md-6">-->
       <h3><span class="glyphicon glyphicon-info-sign"></span> Installation</h3>
       <ul>
-        <li class="docs">Install Python 3.7 <a href="https://www.python.org/downloads/release/python-373/">from the download page here</a></li>
-        <li class="docs">Download the code from GitHub or using git and place it into a new folder</li>
-        <li class="docs">Open the settings file, and change the </li>
-        <li class="docs">Open a command prompt and navigate to this folder, then type: <code>python -m venv venv</code> to create a python virtual environment, then <code>pip install -r requirements.txt</code> It will automatically install required libraries from requirements.txt</li>
-        <li class="docs">In that same command prompt, type <code>python manage.py runserver</code> to run the app using Django's development server, to verify the project is set up correctly</li>
+        <li class="docs">Install Python 3.7 from the <a href="https://www.python.org/downloads/release/python-373/">download page here</a></li>
+        <li class="docs">Download the code from GitHub or clone it using git. Put the contents into it's own folder if it is not already.</li>
         <li class="docs">Create a new OAuth app on GitHub for this project here <a href="https://github.com/settings/applications/new"></a> which will give you the necessary client IDs to connect to GitHub's API</li>
-        <li class="docs">Set the "Authorization callback URL" to the results page of the app (warning: if running locally on the dev server, this callback URL won't work correctly because the localhost is not a valid URL for this field)</li>
-        <li class="docs">In the settings file for the project, add the client ID and client secret ID assigned by GitHub to the variables in this file.</li>
-        <li class="docs">To run the server, use the <code>python manage.py runserver</code> command from the project directory and with that, you should be ready to try the app out for yourself!</li>
-        <li class="docs">To deploy this app using Heroku you can check out their <a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started</a> guide</li>
+        <li class="docs">Set the "Authorization callback URL" to the results page of the app. For example, "https://selfreplicator.herokuapp.com/results" (warning: if running locally on the dev server, this callback URL won't work correctly because the localhost is not a valid URL for this field)</li>
+        <li class="docs">Edit the setup_files.bat, and change the variables for client_id and client_secret to match the ones given by GitHub after registering the app.</li>
+        <li class="docs">Run setup_files.bat, and it will copy the Client ID and client Secret ID, as well as a generated Secret ID, into the settings.py file in the githubapps folder, run <code>python -m venv venv</code> to create a python virtual environment folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.</li>
+        <li class="docs">To run the server, open a command prompt and navigate to the project root directory (where manage.py is located), then type <code>python manage.py runserver</code> to run the app using Django's development server. If you see the app's home page running on localhost:8000, that means you have correctly set up the app.</li>
+        <li class="docs">When running the app in a production environment, however, it is important that DEBUG is be set to False in githubapps/settings.py </li>
       </ul>
+      <p>To deploy this app using Heroku you can check out their <a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started</a> guide</p>
     </div>
     <div id="techspecs" class="tabcontent">
       <h3><span class="glyphicon glyphicon-question-sign"></span> How it Works</h3>
       <p>This application was created with Python using Django and deployed on Heroku</p>
-      <p>Clicking the button sends the requests to access the user's GitHub profile and creates a repository for the user with this application's own code in it. It does not require the users's password or access to the user's private repositories. The request is made via a url to GitHub using the client ID assigned to this app after registering it with GitHub, and once the user has logged in, asks if the user will accept the app's access request. Agreeing sends the user to the "callback" url provided to GitHub when registering the app.</p>
-      <p>Sending along with the callback url, GitHub also provides a code that can be exchanged for an authorization token, which allows the app to use the authorization the user agreed to in order to access the public repositories.</p>
-      <p>Once the code is sent to GitHub's API with a request for an auth token, the token is then used to get the authenticated user's username, which will be used when pushing the files to the repository that will be created.</p>
-      <p>The repository is created in the user's public repositories, using an request sending the name of the repository, description, homepage, and an option telling it to not auto-initialize with a readme file, since we already have one in the project.</p>
-      <p>Once the repo has been created, we use the same auth token and the user's username in a request to push content to that new repo.</p>
+      <p>Clicking the replicate button sends a request to GitHub in the form of a url including the client ID
+      assigned to this app after registering it with GitHub, and stating which places the app needs access to.
+      For this app, access the user's GitHub profile and public repositories is what is required. It does not,
+      however, require the users's password or access to the user's private repositories. A tab will be opened,
+      displaying either GitHub's app authorization screen (if the user is already logged in) or a login screen,
+      which will take the user to the app authorization screen upon logging in. If the user has already accepted
+      access for this app, it will skip this part and immediately move to the next step. Agreeing to accept the app's
+      request for access sends the user to the callback url provided to GitHub when registering the app, which in this
+      case should be the results page.</p>
+      <p>Along with the callback URL, GitHub also adds a code to the end of the URL that is necessary to exchange for an
+      authorization token, which allows the app to use the permission granted by the user to access their profile and
+      public repositories. This code is sent to GitHub's API in a request along with the app's client ID and client secret
+      ID to exchange for an auth token that will temporarily allow the app access. The token is then used to get the
+      authenticated user's username, so the correct url to the new repository is formed when pushing the app's files to it.</p>
+      <p>Using a request containing the auth token, the name of the repository to be created, description, and an option telling it to not auto-initialize
+      with a readme file (since we already have one in the project), the new repository is created in the authenticated user's public repositories.
+      Then, for each file that will be copied from the app's files, a request is made with the auth token, the user's username, and the path to where the file should go.</p>
+      <p>Once the app has finished pushing each of the files to the newly created repository, it will load the results page. If everything has been completed successfuly,
+      the results page should have a "Success" message and the log should show success for each step and file copied. If there was an error, the results page will have an
+      "Error" message and display the cause of the error in the log. If the repository was created successfully, but there was a problem with copying one or more of the app's
+      files to it, then a "Warning" message will be displayed, with the log showing the steps and files that succeeded, as well as identifying the files which failed.</p>
     </div>
     <div id="links" class="tabcontent">
       <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
       <ul>
         <li><a href="https://github.com/H0L0GH05t/selfreplicator">Repository where this app can be downloaded</a></li>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku CLI Download and Installation</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/django-app-configuration">Configuring Django Apps for Heroku</a></li>
+        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on Heroku Guide</a></li>
+        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku CLI Download and Installation Guide</a></li>
+        <li><a href="https://devcenter.heroku.com/articles/django-app-configuration">Configuring Django Apps for Heroku Guide</a></li>
         <li><a href="https://docs.djangoproject.com/en/2.2/intro/tutorial01/">Django 2.2 Introduction Tutorial</a></li>
         <li><a href="https://github.com/settings/apps/authorizations">Review your app authorizations on GitHub</a></li>
         <li><a href="https://github.com/settings/developers">Create an OAuth app on GitHub</a></li>

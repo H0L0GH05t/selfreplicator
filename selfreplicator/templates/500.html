@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <a href="/" class="app-logo">
+      <img src="{% static 'app-logo.png'%}">
+    </a>
+    <h1>Error 500</h1>
+    <p>{{error_msg}}</p>
+    <p>Please click the logo above to return to the home page</p>
+    <p>{{test}}</p>
+  </div>
+</div>
+
+{% endblock %}

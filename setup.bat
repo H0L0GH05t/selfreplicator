@@ -1,16 +1,32 @@
 @echo off
 CLS
 
-IF NOT (%1)==() GOTO %1
+REM CD utils
 
-:MENU
-IF NOT (%1)==() GOTO EOF
-ECHO.
+ECHO Working from %CD%
+PAUSE
 
-cd utils
+set client_id=PASTE-CLIENT-ID-HERE
+set client_secret=PASTE-CLIENT-SECRET-ID-HERE
 
-python generate_secret_id.py
+python utils/setup_files.py %client_id% %client_secret%
 
-cd ..
+CD ..
+ECHO Moved to work from %CD%
 
-python manage.py migrate
+python -m venv venv
+
+ECHO Created python virtual environment
+PAUSE
+
+venv\Scripts\activate.bat
+
+pip install -r requirements.txt
+
+ECHO Installed necessary python libs
+
+python manage.py collectstatic
+
+ECHO Finished setting up project
+
+PAUSE

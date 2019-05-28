@@ -25,7 +25,6 @@ def results(request):
             
         # create new repo in user's GitHub account
         result_status, result_msgs = create_repo(access_token, result_msgs)
-        result_status = "success"
     else:
          # Record the authentication error message
         result_msgs.append("There was a problem with authentication - Response: %s" % auth_response.text)
@@ -103,6 +102,8 @@ def create_repo(access_token, result_msgs):
                     'requirements.txt',                         # list of all required libraries for python
                     'runtime.txt',                              # version of python to use at runtime
                     # 'db.sqlite3',                             # database file
+                    'setup.bat',                                # Batch script to help set up this project for the first time
+                    'utils/setup_files.py'                      # utility script to create a settings.py file from the template containing the correct IDs
                     'selfreplicator/admin.py',                  # django: django admin page
                     'selfreplicator/__init__.py',               # django: generated init
                     'selfreplicator/apps.py',                   # django: generated app config
@@ -116,7 +117,7 @@ def create_repo(access_token, result_msgs):
                     'selfreplicator/templates/results.html',    # will show results message
                     'githubapps/static/humans.txt',             # blank file so dir is not empty
                     'githubapps/__init__.py',                   # django: generated init file
-                    'githubapps/settings.py',                   # django: settings for project
+                    'githubapps/settings-template.py',          # django: settings for project
                     'githubapps/urls.py',                       # django: url paths to use
                     'githubapps/wsgi.py']                       # django: wsgi settings for app
         
@@ -133,7 +134,27 @@ def create_repo(access_token, result_msgs):
         
     else:
         # record repo creation error message
-        result_status = "error"
         result_msgs.append("Failed to create new repo in user's GitHub account - Response: %s" % create_repo_response.text)
+        result_status = "error"
             
     return result_status, result_msgs
+
+# Custom error pages
+
+# def handler404(request, exception, template_name="error.html"):
+#     response = render_to_response("error.html", {'error_msg': exception,
+#                                                  'test': request})
+#     response.status_code = 404
+#     return response
+# 
+# def handler500(request, exception, template_name="500.html"):
+#     response = render_to_response("500.html", {'error_msg': exception,
+#                                                  'test': request})
+#     response.status_code = 500
+#     return response
+# 
+# def handler403(request, exception, template_name="403.html"):
+#     response = render_to_response("403.html", {'error_msg': exception,
+#                                                  'test': request})
+#     response.status_code = 403
+#     return response
