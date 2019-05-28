@@ -109,8 +109,8 @@ def create_repo(access_token, result_msgs):
                     'selfreplicator/models.py',                 # django: model objects
                     'selfreplicator/views.py',                  # django: code each page view in urls
                     'selfreplicator/static/app-logo.png',       # custom logo
-                    'selfreplicator/static/selfreplicator.js',  # script for site
-                    'selfreplicator/static/selfreplicator.css', # styles for site
+                    'selfreplicator/static/script.js',  # script for site
+                    'selfreplicator/static/styles.css', # styles for site
                     'selfreplicator/templates/base.html',       # contains the base html for the site
                     'selfreplicator/templates/index.html',      # home page
                     'selfreplicator/templates/results.html',    # will show results message
