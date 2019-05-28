@@ -20,7 +20,6 @@ def results(request):
     auth_response = requests.post('https://github.com/login/oauth/access_token', params={'client_id':settings.CLIENT_ID, 'client_secret': settings.CLIENT_SECRET, 'code': code_for_token})
     if (auth_response.status_code == 200) or (auth_response.status_code == 201):
         result_msgs.append("Successfully obtained access token from GitHub")
-        # access_token = auth_response.json('access_token')
         access_token = auth_response.text.split('&')[0].replace('access_token=', '')
             
         # create new repo in user's GitHub account
