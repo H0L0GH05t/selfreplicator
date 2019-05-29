@@ -81,7 +81,7 @@ def replicate_file(appfile, username, headers):
     create_file_response = requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, appfile), headers=headers, data=content_data)
     return create_file_response
 
-def create_repo(access_token, result_msgs, new_repo_url):    
+def create_repo(access_token, result_msgs):    
     
     # create new repo in user's GitHub account
     headers = {'Authorization' : 'token %s' % access_token}
