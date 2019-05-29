@@ -1,33 +1,30 @@
-@echo off
-CLS
-
-REM CD utils
-
-ECHO Working from %CD%
-PAUSE
-
 set client_id=PASTE-CLIENT-ID-HERE
 set client_secret=PASTE-CLIENT-SECRET-ID-HERE
 
-python utils/setup_files.py %client_id% %client_secret%
+CD utils 
 
-CD ..
-ECHO Moved to work from %CD%
+ECHO Working from %CD% 
+PAUSE 
 
-python -m venv venv
+python utils/setup_files.py %client_id% %client_secret% 
 
-ECHO Created python virtual environment
-ECHO Press any key to continue to installing python libraries
-PAUSE
+CD .. 
 
-venv\Scripts\activate.bat
+ECHO Moved to work from %CD% to create venv 
 
-pip install -r requirements.txt
+python -m venv venv 
 
-ECHO Installed necessary python libs
+ECHO Created python virtual environment 
 
-python manage.py collectstatic
+ECHO Press any key to continue to installing python libraries 
 
-ECHO Finished setting up project
+PAUSE 
 
-PAUSE
+venv\Scripts\activate.bat 
+
+pip install -r requirements.txt 
+
+ECHO Installed necessary python libs 
+ECHO Finished setting up project 
+
+PAUSE 
