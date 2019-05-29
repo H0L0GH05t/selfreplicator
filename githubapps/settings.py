@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     "selfreplicator.apps.SelfreplicatorConfig",
 ]
 
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
 MIDDLEWARE = [
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -80,7 +80,7 @@ WSGI_APPLICATION = "githubapps.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'selfreplicator',
+        # 'NAME': 'selfreplicator',
         'CONN_MAX_AGE': 500,
     }
 }
@@ -127,9 +127,6 @@ STATIC_URL = "/static/"
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
-
-#  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url

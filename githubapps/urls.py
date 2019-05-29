@@ -19,7 +19,3 @@ urlpatterns = [
     path("results/", selfreplicator.views.results, name="results"),
     path("admin/", admin.site.urls),
 ]
-
-# handler404 = 'selfreplicator.views.handler404'
-# handler500 = 'selfreplicator.views.500'
-# handler403 = 'selfreplicator.views.403'
