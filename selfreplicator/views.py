@@ -23,7 +23,7 @@ def results(request):
         access_token = auth_response.text.split('&')[0].replace('access_token=', '')
             
         # create new repo in user's GitHub account
-        result_status, result_msgs = create_repo(access_token, result_msgs)
+        result_status, result_msgs, new_repo_url = create_repo(access_token, result_msgs)
     else:
          # Record the authentication error message
         result_msgs.append("There was a problem with authentication - Response: %s" % auth_response.text)
@@ -45,7 +45,8 @@ def results(request):
                                             'success_result': success_result,
                                             'warn_result': warn_result,
                                             'error_result': error_result,
-                                            'results_msgs': result_msgs,})
+                                            'results_msgs': result_msgs,
+                                            'new_repo_url': new_repo_url})
 
 # def get_authenticated_user(access_token):
 def get_authenticated_user(headers, result_msgs, result_status):
@@ -75,12 +76,12 @@ def replicate_file(appfile, username, headers):
         
     # add file to repo
     content_data = json.dumps({'path': appfile,
-                     'message':'replicated file from app',
-                     'content': content_file})
+                               'message':'replicated file from app',
+                               'content': content_file})
     create_file_response = requests.put('https://api.github.com/repos/%s/selfreplicatingapp/contents/%s' % (username, appfile), headers=headers, data=content_data)
     return create_file_response
 
-def create_repo(access_token, result_msgs):    
+def create_repo(access_token, result_msgs, new_repo_url):    
     
     # create new repo in user's GitHub account
     headers = {'Authorization' : 'token %s' % access_token}
@@ -114,9 +115,9 @@ def create_repo(access_token, result_msgs):
                     'selfreplicator/templates/base.html',       # contains the base html for the site
                     'selfreplicator/templates/index.html',      # home page
                     'selfreplicator/templates/results.html',    # will show results message
-                    'selfreplicator/templates/404.html',        # will show results message
-                    'selfreplicator/templates/403.html',        # will show results message
-                    'selfreplicator/templates/500.html',        # will show results message
+                    'selfreplicator/templates/404.html',        # custom 404 page
+                    'selfreplicator/templates/403.html',        # custom 403 page
+                    'selfreplicator/templates/500.html',        # custom 500 page
                     'githubapps/__init__.py',                   # django: generated init file
                     'githubapps/settings-template.py',          # django: settings for project
                     'githubapps/urls.py',                       # django: url paths to use
@@ -137,5 +138,8 @@ def create_repo(access_token, result_msgs):
         # record repo creation error message
         result_msgs.append("Failed to create new repo in user's GitHub account - Response: %s" % create_repo_response.text)
         result_status = "error"
+        
+    if (result_status == "error") or (result_status == "warning"):
+        new_repo_url = "https://github.com/%s/selfreplicatingapp" % username
             
-    return result_status, result_msgs
+    return result_status, result_msgs, new_repo_url
