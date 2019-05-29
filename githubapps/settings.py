@@ -23,7 +23,7 @@ CLIENT_ID = 'c66f4b201302de0cfe4e'
 CLIENT_SECRET = '0f6d446961bb7fbf18bea94461fbb3f1891afdb9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['herokudjangoapp.herokuapp.com']
 

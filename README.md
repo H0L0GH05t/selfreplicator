@@ -43,10 +43,9 @@ For more details, see How To Install.
 
 ## How To Install
 
+Download the code from GitHub or clone it using git:
 git clone https://github.com/H0L0GH05t/selfreplicator.git
-
-Install Python 3.7 from the download page here: https://www.python.org/downloads/release/python-373/
-Download the code from GitHub or clone it using git. Put the contents into it's own folder if it is not already.
+Put the contents into it's own folder if it is not already.
 Create a new OAuth app on GitHub for this project here: https://github.com/settings/applications/new which will give you the necessary client IDs to connect to GitHub's API
 Set the "Authorization callback URL" to the results page of the app. For example, "https://selfreplicator.herokuapp.com/results" (warning: if running locally on the dev server, this callback URL won't work correctly because the localhost is not a valid URL for this field)
 Edit the setup_files.bat, and change the variables for client_id and client_secret to match the ones given by GitHub after registering the app.
@@ -67,7 +66,7 @@ The app should now be running on [localhost:8000](http://localhost:8000/).
 
 ## Deployed to Heroku
 
-To push to Heroku, you'll need to install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli), as well as [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
+To push to Heroku, you'll need to install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
 
 git add .
 git commit -m "commit message"

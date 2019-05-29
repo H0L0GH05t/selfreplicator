@@ -41,7 +41,7 @@
         <li>chardet 3.0.4</li>
         <li>dj-database-url 0.5.0</li>
         <li>idna 2.8</li>
-        <li>psycopg2 2.8.2</li>
+        <li>psycopg 2 2.8.2</li>
         <li>pytz 2019.1</li>
         <li>sqlparse 0.3.0</li>
         <li>urllib3 1.25.3</li>
@@ -67,7 +67,6 @@
         <li class="docs">Edit the setup_files.bat, and change the variables for client_id and client_secret to match the ones given by GitHub after registering the app.</li>
         <li class="docs">Run setup_files.bat, and it will copy the Client ID and client Secret ID, as well as a generated Secret ID, into the settings.py file in the githubapps folder, run <code>python -m venv venv</code> to create a python virtual environment folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.</li>
         <li class="docs">To run the server, open a command prompt and navigate to the project root directory (where manage.py is located), then type <code>python manage.py runserver</code> to run the app using Django's development server. If you see the app's home page running on localhost:8000, that means you have correctly set up the app.</li>
-        <li class="docs">When running the app in a production environment, however, it is important that DEBUG is be set to False in githubapps/settings.py </li>
       </ul>
       <p>To deploy this app using Heroku you can check out their <a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started</a> guide</p>
     </div>
