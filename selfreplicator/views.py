@@ -139,7 +139,8 @@ def create_repo(access_token, result_msgs):
         result_msgs.append("Failed to create new repo in user's GitHub account - Response: %s" % create_repo_response.text)
         result_status = "error"
         
-    if (result_status == "error") or (result_status == "warning"):
+    new_repo_url = ""
+    if result_status != "error":
         new_repo_url = "https://github.com/%s/selfreplicatingapp" % username
             
     return result_status, result_msgs, new_repo_url

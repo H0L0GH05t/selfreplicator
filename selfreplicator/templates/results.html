@@ -23,7 +23,9 @@
     </div>
     
     <a type="button" class="btn btn-lg btn-primary" href="https://github.com/settings/connections/applications/{{ client_id }}"> Review your Authorized Apps on GitHub</a>
+    {% if new_repo_url != "" %}
     <a type="button" class="btn btn-lg btn-primary" href="{{ new_repo_url }}"> Check out your new Repo Here</a>
+    {% endif %}
     
     <div class="logbox">
       <h3>Log:</h3>
