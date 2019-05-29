@@ -102,7 +102,7 @@ def create_repo(access_token, result_msgs):
                     'runtime.txt',                              # version of python to use at runtime
                     # 'db.sqlite3',                             # database file
                     'setup.bat',                                # Batch script to help set up this project for the first time
-                    'utils/setup_files.py'                      # utility script to create a settings.py file from the template containing the correct IDs
+                    'utils/setup_files.py',                     # utility script to create a settings.py file from the template containing the correct IDs
                     'selfreplicator/admin.py',                  # django: django admin page
                     'selfreplicator/__init__.py',               # django: generated init
                     'selfreplicator/apps.py',                   # django: generated app config
