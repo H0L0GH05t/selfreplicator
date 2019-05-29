@@ -101,8 +101,9 @@ def create_repo(access_token, result_msgs):
                     'README.md',                                # github: documentation
                     'requirements.txt',                         # list of all required libraries for python
                     'runtime.txt',                              # version of python to use at runtime
-                    # 'db.sqlite3',                             # database file
                     'setup.bat',                                # Batch script to help set up this project for the first time
+                    'SETUP.txt',                                # file containing client ids from github
+                    '.gitignore',                               # gitignore for this project
                     'utils/setup_files.py',                     # utility script to create a settings.py file from the template containing the correct IDs
                     'selfreplicator/admin.py',                  # django: django admin page
                     'selfreplicator/__init__.py',               # django: generated init

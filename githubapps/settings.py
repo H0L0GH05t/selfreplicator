@@ -22,7 +22,6 @@ SECRET_KEY = 'z-nl6z-xjwuh&tl*+0tqyd94newr0bo58$x-jve2*@5gzzj&s&'
 CLIENT_ID = 'c66f4b201302de0cfe4e'
 CLIENT_SECRET = '0f6d446961bb7fbf18bea94461fbb3f1891afdb9'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['herokudjangoapp.herokuapp.com']
@@ -122,11 +121,6 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
-
-# list of dirs for collectstatic to find static files.
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url

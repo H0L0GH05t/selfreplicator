@@ -1,0 +1,2 @@
+client_id=PASTE_YOUR_CLIENT_ID_HERE 
+client_secret_id=PASTE_YOUR_CLIENT_SECRET_ID_HERE 

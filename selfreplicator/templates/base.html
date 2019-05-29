@@ -59,16 +59,34 @@
     <div id="installation" class="tabcontent">
     <!--<div class="col-md-6">-->
       <h3><span class="glyphicon glyphicon-info-sign"></span> Installation</h3>
+      <p>Set up and deploying to Heroku:</p>
       <ul>
         <li class="docs">Install Python 3.7 from the <a href="https://www.python.org/downloads/release/python-373/">download page here</a></li>
-        <li class="docs">Download the code from the GitHub repository created on your account and unzip it.</li>
-        <li class="docs">Create a new OAuth app on GitHub for this project here <a href="https://github.com/settings/applications/new"></a> which will give you the necessary client IDs to connect to GitHub's API</li>
-        <li class="docs">Set the "Authorization callback URL" to the results page of the app. For example, "https://selfreplicator.herokuapp.com/results" (warning: if running locally on the dev server, this callback URL won't work correctly because the localhost is not a valid URL for this field)</li>
-        <li class="docs">Edit the setup_files.bat, and change the variables for client_id and client_secret to match the ones given by GitHub after registering the app.</li>
-        <li class="docs">Run setup_files.bat, and it will copy the Client ID and client Secret ID, as well as a generated Secret ID, into the settings.py file in the githubapps folder, run <code>python -m venv venv</code> to create a python virtual environment folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.</li>
-        <li class="docs">To run the server, open a command prompt and navigate to the project root directory (where manage.py is located), then type <code>python manage.py runserver</code> to run the app using Django's development server. If you see the app's home page running on localhost:8000, that means you have correctly set up the app.</li>
+        <li class="docs">Download the zip from the GitHub repository created on your account (or clone it locally) and unzip it.</li>
+        <li class="docs">Next we need to get the necessary client IDs to connect to GitHub's API. To do this, follow the prompts to create a new OAuth app on GitHub for this project <a href="https://github.com/settings/applications/new">here</a>.</li>
+        <li class="docs">Set the "Authorization callback URL" to the results page of the app. For example, "https://selfreplicator.herokuapp.com/results". If you are running locally usimg the built-in Django development server, this callback URL won't work correctly. It will only work locally if running locally with Heroku.</li>
+        <li class="docs">Edit the SETUP.txt file in the root folder of the project (where manage.py is located) by copying and pasting the values for "client_id" and "client_secret" from GitHub (on the screen showing your registered app) into the
+        labeled spots and save the file.</li>
+        <li class="docs">Run setup.bat, and it will read the Client ID and client Secret ID from the setup.txt file, generate a Secret ID, and paste these
+        values into the settings.py file in the githubapps folder. It will also run <code>python -m venv venv</code> to create a python virtual environment
+        folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.</li>
+        <li>Next, you will need to <a href="https://www.heroku.com">create a free Heroku account.</a></li>
+        <li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Download and install Git</a> if you do not already have git installed.</li>
+        <li>Follow the instructions <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">in this guide</a> to set up git for the first time.</li>
+        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Download and install Heroku CLI</a> then open a command prompt in the project root directory and type <code>heroku login</code></li>
+        <li>In the same command prompt (while in the root directory of the project), type <code>heroku create</code> to create an app using this code in your Heroku account</li>
+        <li>Now that it has been created, you can deploy it by typing <code>git push heroku master</code></li>
+        <li>Ensure that at least one instance of the app is running by typing <code>heroku ps:scale web=1</code> into the command prompt</li>
+        <li>Congratulations! The app is now deployed and can be seen using its URL</li>
+        <li>As a handy shortcut, you can open the website from the command prompt as well with <code>heroku open</code></li>
       </ul>
-      <p>To deploy this app using Heroku you can check out their <a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started</a> guide</p>
+      <p>To run the app Locally:</p>
+      <ul>
+        <li>Type <code>python manage.py collectstatic</code> into the command prompt. This will collect all the static files so that they can be served correctly while running locally.</li>
+        <li><code>heroku local web -f Procfile.windows</code> or <code>heroku local web</code></li>
+        <li>Open <a href="http://localhost:5000">http://localhost:5000</a> with your web browser. You should see your app running locally.</li>
+        <li>To stop the app from running locally, go back to your command prompt window and press Ctrl+C to exit.</li>
+      </ul>
     </div>
     <div id="techspecs" class="tabcontent">
       <h3><span class="glyphicon glyphicon-question-sign"></span> How it Works</h3>
