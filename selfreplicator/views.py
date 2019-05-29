@@ -117,7 +117,6 @@ def create_repo(access_token, result_msgs):
                     'selfreplicator/templates/404.html',        # will show results message
                     'selfreplicator/templates/403.html',        # will show results message
                     'selfreplicator/templates/500.html',        # will show results message
-                    'staticfiles/humans.txt',                   # blank file so dir is not empty
                     'githubapps/__init__.py',                   # django: generated init file
                     'githubapps/settings-template.py',          # django: settings for project
                     'githubapps/urls.py',                       # django: url paths to use
