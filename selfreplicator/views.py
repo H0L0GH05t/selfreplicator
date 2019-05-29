@@ -109,12 +109,15 @@ def create_repo(access_token, result_msgs):
                     'selfreplicator/models.py',                 # django: model objects
                     'selfreplicator/views.py',                  # django: code each page view in urls
                     'selfreplicator/static/app-logo.png',       # custom logo
-                    'selfreplicator/static/script.js',  # script for site
-                    'selfreplicator/static/styles.css', # styles for site
+                    'selfreplicator/static/script.js',          # script for site
+                    'selfreplicator/static/styles.css',         # styles for site
                     'selfreplicator/templates/base.html',       # contains the base html for the site
                     'selfreplicator/templates/index.html',      # home page
                     'selfreplicator/templates/results.html',    # will show results message
-                    'githubapps/static/humans.txt',             # blank file so dir is not empty
+                    'selfreplicator/templates/404.html',        # will show results message
+                    'selfreplicator/templates/403.html',        # will show results message
+                    'selfreplicator/templates/500.html',        # will show results message
+                    'staticfiles/humans.txt',                   # blank file so dir is not empty
                     'githubapps/__init__.py',                   # django: generated init file
                     'githubapps/settings-template.py',          # django: settings for project
                     'githubapps/urls.py',                       # django: url paths to use
@@ -137,23 +140,3 @@ def create_repo(access_token, result_msgs):
         result_status = "error"
             
     return result_status, result_msgs
-
-# Custom error pages
-
-# def handler404(request, exception, template_name="error.html"):
-#     response = render_to_response("error.html", {'error_msg': exception,
-#                                                  'test': request})
-#     response.status_code = 404
-#     return response
-# 
-# def handler500(request, exception, template_name="500.html"):
-#     response = render_to_response("500.html", {'error_msg': exception,
-#                                                  'test': request})
-#     response.status_code = 500
-#     return response
-# 
-# def handler403(request, exception, template_name="403.html"):
-#     response = render_to_response("403.html", {'error_msg': exception,
-#                                                  'test': request})
-#     response.status_code = 403
-#     return response
