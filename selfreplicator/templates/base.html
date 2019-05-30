@@ -74,7 +74,7 @@
         <li>The homepageURL should be the domain copied from the settings page, for example: "https://my-app-name.herokuapp.com". Set the "Authorization callback URL" to the results page of the app. For example, "https://my-app-name.herokuapp.com/results". Hit the button to register this app and you'll be taken to the app's info screen.</li>
         <li>Edit the SETUP.txt file in the root folder of the project by copying and pasting the values for "client_id" and "client_secret" from the app info page on GitHub into the
         labeled spots, then save and close the file.</li>
-        <li >Open a command prompt this same folder and tppe <code>setup.bat</code> to run the batch file. It will run <code>python -m venv venv</code> to create a python virtual environment.
+        <li >Open a command prompt this same folder and type <code>setup.bat</code> to run the batch file. It will run <code>python -m venv venv</code> to create a python virtual environment.
         folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.
         It will also read the Client ID and Client Secret ID you copied to the SETUP.txt file, generate a Secret ID, and paste these values into the settings.py file in the githubapps folder. </li>
         <li>Now that it has been created and set up, you can deploy it by typing <code>git push heroku master</code></li>
