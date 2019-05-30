@@ -49,9 +49,8 @@
       </ul>
       <p>To run the app from Heroku (as it is running here), you will also need:</p>
       <ul>
-        <li>Postgres</li>
+        <li>Git</li>
         <li>A Heroku account</li>
-        <li>heroku-postgresql add on</li>
         <li>Heroku CLI</li>
       </ul>
       <p>For more details, see How To Install.</p>
@@ -63,24 +62,29 @@
       <ul>
         <li>Install Python 3.7 from the <a href="https://www.python.org/downloads/release/python-373/">download page here</a></li>
         <li>You will also need to <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">download and install Git</a> if you do not already have it.</li>
-        <li>To set up git for the first time follow the instructions <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">in this guide</a> .</li>
-        <li>Download the zip containing the app's code from the GitHub repository and unzip it, or clone it locally with git</li>
+        <li>To set up git for the first time follow the instructions <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">in this guide</a>.</li>
+        <li>Download the zip containing the app's code from the GitHub repository and unzip it, or clone it locally with git.</li>
+        <li>Open a command prompt in the project root directory (inside selfreplicatingapp-master) and type <code>git init</code> to turn this project into a git repository.</li>
         <li>Next, you will need to <a href="https://www.heroku.com">create a free Heroku account</a>.</li>
-        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Download and install Heroku CLI</a> then open a command prompt in the project root directory (inside selfreplicatingapp-master) and type <code>heroku login</code> so you can connect your heroku app to the project files</li>
-        <li>In the same command prompt, type <code>heroku create</code> to create an app using this code in your Heroku account</li>
-        <li>Navigate to heroku's website and select your newly created app from the dashboard. On the settings page for the app, find the "Buildpacks" and click the "Add a buildpack" button, select Python, and save changes.
+        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Download and install Heroku CLI</a> then in the command prompt opened in the project root directory type
+        <code>heroku login</code> so you can connect your heroku app to the project files.</li>
+        <li>In the same command prompt, type <code>heroku create my-app-name</code> to create an app using this code in your Heroku account.</li>
+        <li>Navigate to heroku's website and select your newly created app from the dashboard. On the settings page for the app, find the "Buildpacks" and click the
+        "Add a buildpack" button, select Python, and save changes.
         Note the domain will be listed next to "Domains and certificates" right below "Buildpacks". You will need this URL for the next step.</li>
-        <li>Next we need to get the necessary client IDs to connect to GitHub's API. To do this, follow the prompts to create a new OAuth app on GitHub for this project <a href="https://github.com/settings/applications/new">here</a>.</li>
-        <li>The homepageURL should be the domain copied from the settings page, for example: "https://my-app-name.herokuapp.com". Set the "Authorization callback URL" to the results page of the app. For example, "https://my-app-name.herokuapp.com/results". Hit the button to register this app and you'll be taken to the app's info screen.</li>
+        <li>Next we need to get the necessary client IDs to connect to GitHub's API. To do this, follow the prompts to create a new OAuth app on GitHub for this project
+        <a href="https://github.com/settings/applications/new">here</a>.</li>
+        <li>The homepage URL should be the domain copied from the settings page, for example: "https://my-app-name.herokuapp.com". Set the "Authorization callback URL" to
+        the results page of the app. For example, "https://my-app-name.herokuapp.com/results". Hit the button to register this app and you'll be taken to the app's info screen.</li>
         <li>Edit the SETUP.txt file in the root folder of the project by copying and pasting the values for "client_id" and "client_secret" from the app info page on GitHub into the
         labeled spots, then save and close the file.</li>
         <li >Open a command prompt this same folder and type <code>setup.bat</code> to run the batch file. It will run <code>python -m venv venv</code> to create a python virtual environment.
         folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.
         It will also read the Client ID and Client Secret ID you copied to the SETUP.txt file, generate a Secret ID, and paste these values into the settings.py file in the githubapps folder. </li>
-        <li>Now that it has been created and set up, you can deploy it by typing <code>git push heroku master</code></li>
-        <li>Ensure that at least one instance of the app is running by typing <code>heroku ps:scale web=1</code></li>
-        <li>Congratulations! The app is now deployed and can be seen using its URL</li>
-        <li>As a handy shortcut, you can open the website from the command prompt as well with <code>heroku open</code></li>
+        <li>Now that it has been created and set up, you can deploy it by typing <code>git push heroku master</code>.</li>
+        <li>Ensure that at least one instance of the app is running by typing <code>heroku ps:scale web=1</code.li>
+        <li>Congratulations! The app is now deployed and can be seen using its URL.</li>
+        <li>As a handy shortcut, you can open the website from the command prompt as well with <code>heroku open</code>.</li>
       </ul>
       <p>To run the app Locally:</p>
       <ul>
@@ -93,20 +97,20 @@
     <div id="techspecs" class="tabcontent">
       <h3><span class="glyphicon glyphicon-question-sign"></span> How it Works</h3>
       <p>This application was created with Python using Django and deployed on Heroku</p>
-      <p>Clicking the replicate button sends a request to GitHub in the form of a url including the client ID
+      <p>Clicking the replicate button sends a request to GitHub in the form of a URL including the client ID
       assigned to this app after registering it with GitHub, and stating which places the app needs access to.
       For this app, access the user's GitHub profile and public repositories is what is required. It does not,
       however, require the users's password or access to the user's private repositories. A tab will be opened,
       displaying either GitHub's app authorization screen (if the user is already logged in) or a login screen,
       which will take the user to the app authorization screen upon logging in. If the user has already accepted
       access for this app, it will skip this part and immediately move to the next step. Agreeing to accept the app's
-      request for access sends the user to the callback url provided to GitHub when registering the app, which in this
+      request for access sends the user to the callback URL provided to GitHub when registering the app, which in this
       case should be the results page.</p>
       <p>Along with the callback URL, GitHub also adds a code to the end of the URL that is necessary to exchange for an
       authorization token, which allows the app to use the permission granted by the user to access their profile and
       public repositories. This code is sent to GitHub's API in a request along with the app's client ID and client secret
       ID to exchange for an auth token that will temporarily allow the app access. The token is then used to get the
-      authenticated user's username, so the correct url to the new repository is formed when pushing the app's files to it.</p>
+      authenticated user's username, so the correct URL to the new repository is formed when pushing the app's files to it.</p>
       <p>Using a request containing the auth token, the name of the repository to be created, description, and an option telling it to not auto-initialize
       with a readme file (since we already have one in the project), the new repository is created in the authenticated user's public repositories.
       Then, for each file that will be copied from the app's files, a request is made with the auth token, the user's username, and the path to where the file should go.</p>
@@ -121,10 +125,11 @@
         <li><a href="https://github.com/H0L0GH05t/selfreplicator">Repository where this app can be downloaded</a></li>
         <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on Heroku Guide</a></li>
         <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku CLI Download and Installation Guide</a></li>
+        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku Deploying with Git Guide</a></li>
         <li><a href="https://devcenter.heroku.com/articles/django-app-configuration">Configuring Django Apps for Heroku Guide</a></li>
         <li><a href="https://docs.djangoproject.com/en/2.2/intro/tutorial01/">Django 2.2 Introduction Tutorial</a></li>
         <li><a href="https://github.com/settings/apps/authorizations">Review your app authorizations on GitHub</a></li>
-        <li><a href="https://github.com/settings/developers">Create an OAuth app on GitHub</a></li>
+        <li><a href="https://github.com/settings/developers">Create or review an OAuth app on GitHub</a></li>
       </ul>
     </div>
   </div> <!-- row -->

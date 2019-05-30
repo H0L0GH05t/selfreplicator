@@ -54,7 +54,7 @@ def create_settings():
     print("Created new settings file")
     
     # create the staticfiles folder referred to in settings
-    if not os.path.exists(staticfiles):
+    if not os.path.exists('staticfiles'):
         os.makedirs('staticfiles')
     
 if __name__ == "__main__":

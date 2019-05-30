@@ -66,7 +66,7 @@ def get_authenticated_user(headers, result_msgs, result_status):
 
 def replicate_file(appfile, username, headers):
     
-    if '.' in appfile:
+    if '.' in appfile or appfile == 'Procfile':
         with open(appfile, 'rb') as f:
             file_to_copy = f.read()
     else:
@@ -104,6 +104,7 @@ def create_repo(access_token, result_msgs):
                     'setup.bat',                                # Batch script to help set up this project for the first time
                     'SETUP.txt',                                # file containing client ids from github
                     '.gitignore',                               # gitignore for this project
+                    'manage.py',                                # Django utility to run the app
                     'utils/setup_files.py',                     # utility script to create a settings.py file from the template containing the correct IDs
                     'selfreplicator/admin.py',                  # django: django admin page
                     'selfreplicator/__init__.py',               # django: generated init
