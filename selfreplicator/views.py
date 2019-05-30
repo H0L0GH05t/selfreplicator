@@ -7,10 +7,8 @@ import json
 import base64
 
 def index(request):
-    # create link asking user to authorize this app's access to their public repos using it's client id
-    # auth_link = "https://github.com/login/oauth/authorize?client_id=%s&scope=public_repo" % settings.CLIENT_ID
+    # add client id to the auth request link button
     return render(request, "index.html", {'client_id': settings.CLIENT_ID})
-    # return render(request, "index.html")
 
 def results(request):
     
