@@ -1,19 +1,19 @@
 @echo off 
 
-ECHO Working from %CD% to set up project. Running could take several minutes.
+ECHO Working from %CD% to set up project. 
+ECHO This will take a few minutes. 
+ECHO Creating venv... 
 
 python -m venv venv 
 
-ECHO Created python virtual environment, installing libraries... 
+ECHO Installing python libraries... 
 
 pip install -r requirements.txt 
 
-ECHO Installed necessary python libs
+ECHO Setting up Django for this project... 
 
 python utils/setup_files.py 
 
-ECHO Set up for Django's settings.py file is complete. Creating venv... 
-
-ECHO Finished setting up project 
+ECHO Finished setup 
 
 PAUSE 

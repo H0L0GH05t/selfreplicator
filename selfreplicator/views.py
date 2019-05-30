@@ -7,12 +7,16 @@ import json
 import base64
 
 def index(request):
-    return render(request, "index.html")
+    # create link asking user to authorize this app's access to their public repos using it's client id
+    auth_link = "https://github.com/login/oauth/authorize?client_id=%s&scope=public_repo" % settings.CLIENT_ID
+    return render(request, "index.html", {'auth_link': auth_link})
 
 def results(request):
     
+    # each step will report a status message to display in the log box in the results page
     result_msgs = []
     result_status = "error"
+    
     # get the code to exchange for an access token
     code_for_token = request.GET.get('code')
 
@@ -25,7 +29,7 @@ def results(request):
         # create new repo in user's GitHub account
         result_status, result_msgs, new_repo_url = create_repo(access_token, result_msgs)
     else:
-         # Record the authentication error message
+        # Record the authentication error message
         result_msgs.append("There was a problem with authentication - Response: %s" % auth_response.text)
         result_status = "error"
     
@@ -40,7 +44,7 @@ def results(request):
     if result_status == "error":
         error_result = "display:block;"
     
-    # render the results page with the status, and link to user's authorization for this app
+    # render the results page with the status, aand link to user's new repo, and authorizations page
     return render(request, "results.html", {'client_id': settings.CLIENT_ID,
                                             'success_result': success_result,
                                             'warn_result': warn_result,
@@ -53,10 +57,9 @@ def get_authenticated_user(headers, result_msgs, result_status):
     username = ''
     # get the authenticated user's username
     username_response = requests.get('https://api.github.com/user', headers=headers)
-    # username_response = requests.get('https://api.github.com/user', params={'access_token': access_token})
     if username_response.status_code == 200:
         username = username_response.json().get('login')
-        result_msgs.append("Successfully found user profile %s from GitHub" % username)
+        result_msgs.append("Successfully found username %s from GitHub" % username)
         result_status = "success"
     else:
         # record the get user error message
@@ -66,11 +69,9 @@ def get_authenticated_user(headers, result_msgs, result_status):
 
 def replicate_file(appfile, username, headers):
     
-    if '.' in appfile or appfile == 'Procfile':
-        with open(appfile, 'rb') as f:
-            file_to_copy = f.read()
-    else:
-        file_to_copy = bytes(appfile, 'utf-8')
+    # read in files as bytes then base64 encode for request and decode utf-8 for json
+    with open(appfile, 'rb') as f:
+        file_to_copy = f.read()
         
     content_file = base64.b64encode(file_to_copy).decode("utf-8")
         
@@ -128,11 +129,13 @@ def create_repo(access_token, result_msgs):
         # get username so we can push files to the new repo
         username, result_msgs, result_status = get_authenticated_user(headers, result_msgs, result_status)
         
+        # push each file to the repo
         for appfile in appfiles:
             if os.path.exists(appfile):
                 create_file_response = replicate_file(appfile, username, headers)
                 result_msgs.append("Copy file: %s -- %s" % (appfile, ("success" if create_file_response.status_code == 201 else "failed: %s" % create_file_response.text)))
             else:
+                # Record the file that failed to be created in the repo
                 result_msgs.append("!! Missing file: %s" % appfile)
                 result_status = "warning"
         
@@ -143,6 +146,7 @@ def create_repo(access_token, result_msgs):
         
     new_repo_url = ""
     if result_status != "error":
+        # If there were no errors creating the repo, set up the URL for the button
         new_repo_url = "https://github.com/%s/selfreplicatingapp" % username
             
     return result_status, result_msgs, new_repo_url
