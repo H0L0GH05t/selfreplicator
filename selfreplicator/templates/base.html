@@ -61,22 +61,24 @@
       <h3><span class="glyphicon glyphicon-info-sign"></span> Installation</h3>
       <p>Set up and deploying to Heroku:</p>
       <ul>
-        <li class="docs">Install Python 3.7 from the <a href="https://www.python.org/downloads/release/python-373/">download page here</a></li>
-        <li class="docs">Download the zip from the GitHub repository created on your account (or clone it locally) and unzip it.</li>
-        <li class="docs">Next we need to get the necessary client IDs to connect to GitHub's API. To do this, follow the prompts to create a new OAuth app on GitHub for this project <a href="https://github.com/settings/applications/new">here</a>.</li>
-        <li class="docs">Set the "Authorization callback URL" to the results page of the app. For example, "https://selfreplicator.herokuapp.com/results". If you are running locally usimg the built-in Django development server, this callback URL won't work correctly. It will only work locally if running locally with Heroku.</li>
-        <li class="docs">Edit the SETUP.txt file in the root folder of the project (where manage.py is located) by copying and pasting the values for "client_id" and "client_secret" from GitHub (on the screen showing your registered app) into the
-        labeled spots and save the file.</li>
-        <li class="docs">Run setup.bat, and it will read the Client ID and client Secret ID from the setup.txt file, generate a Secret ID, and paste these
-        values into the settings.py file in the githubapps folder. It will also run <code>python -m venv venv</code> to create a python virtual environment
-        folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.</li>
-        <li>Next, you will need to <a href="https://www.heroku.com">create a free Heroku account.</a></li>
-        <li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Download and install Git</a> if you do not already have git installed.</li>
-        <li>Follow the instructions <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">in this guide</a> to set up git for the first time.</li>
-        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Download and install Heroku CLI</a> then open a command prompt in the project root directory and type <code>heroku login</code></li>
-        <li>In the same command prompt (while in the root directory of the project), type <code>heroku create</code> to create an app using this code in your Heroku account</li>
-        <li>Now that it has been created, you can deploy it by typing <code>git push heroku master</code></li>
-        <li>Ensure that at least one instance of the app is running by typing <code>heroku ps:scale web=1</code> into the command prompt</li>
+        <li>Install Python 3.7 from the <a href="https://www.python.org/downloads/release/python-373/">download page here</a></li>
+        <li>You will also need to <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">download and install Git</a> if you do not already have it.</li>
+        <li>To set up git for the first time follow the instructions <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">in this guide</a> .</li>
+        <li>Download the zip containing the app's code from the GitHub repository and unzip it, or clone it locally with git</li>
+        <li>Next, you will need to <a href="https://www.heroku.com">create a free Heroku account</a>.</li>
+        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Download and install Heroku CLI</a> then open a command prompt in the project root directory (inside selfreplicatingapp-master) and type <code>heroku login</code> so you can connect your heroku app to the project files</li>
+        <li>In the same command prompt, type <code>heroku create</code> to create an app using this code in your Heroku account</li>
+        <li>Navigate to heroku's website and select your newly created app from the dashboard. On the settings page for the app, find the "Buildpacks" and click the "Add a buildpack" button, select Python, and save changes.
+        Note the domain will be listed next to "Domains and certificates" right below "Buildpacks". You will need this URL for the next step.</li>
+        <li>Next we need to get the necessary client IDs to connect to GitHub's API. To do this, follow the prompts to create a new OAuth app on GitHub for this project <a href="https://github.com/settings/applications/new">here</a>.</li>
+        <li>The homepageURL should be the domain copied from the settings page, for example: "https://my-app-name.herokuapp.com". Set the "Authorization callback URL" to the results page of the app. For example, "https://my-app-name.herokuapp.com/results". Hit the button to register this app and you'll be taken to the app's info screen.</li>
+        <li>Edit the SETUP.txt file in the root folder of the project by copying and pasting the values for "client_id" and "client_secret" from the app info page on GitHub into the
+        labeled spots, then save and close the file.</li>
+        <li >Open a command prompt this same folder and tppe <code>setup.bat</code> to run the batch file. It will run <code>python -m venv venv</code> to create a python virtual environment.
+        folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.
+        It will also read the Client ID and Client Secret ID you copied to the SETUP.txt file, generate a Secret ID, and paste these values into the settings.py file in the githubapps folder. </li>
+        <li>Now that it has been created and set up, you can deploy it by typing <code>git push heroku master</code></li>
+        <li>Ensure that at least one instance of the app is running by typing <code>heroku ps:scale web=1</code></li>
         <li>Congratulations! The app is now deployed and can be seen using its URL</li>
         <li>As a handy shortcut, you can open the website from the command prompt as well with <code>heroku open</code></li>
       </ul>

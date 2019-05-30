@@ -1,4 +1,4 @@
-import sys, os
+import sys, os, re
 from django.utils.crypto import get_random_string
 
 # This script edits the settings file with a new secret id
