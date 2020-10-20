@@ -16,7 +16,7 @@ Using a request containing the auth token, the name of the repository to be crea
 In order to run this app, you will first need to install Python 3.7 and a few libraries.
 When installing the app, the following libraries from requirements.txt will be installed:
 
-- Django 2.2.1
+- Django 2.2.13
 - gunicorn 19.9.0
 - django-heroku 0.3.1
 - requests 2.22.0
