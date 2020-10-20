@@ -45,13 +45,13 @@ For more details, see How To Install.
 
 Set up and deploying to Heroku:
 
-- Install Python 3.7 from the [download page here](https://www.python.org/downloads/release/python-373/)
+- Install Python 3.7 from the [download page here](https://www.python.org/downloads/release/python-373/).
 - You will also need to [download and install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) if you do not already have it.
-- To set up git for the first time follow the instructions [in this guide<](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup).
+- To set up git for the first time follow the instructions [in this guide](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup).
 - Download the zip containing the app's code from the GitHub repository and unzip it, or clone it locally with git.
 - Open a command prompt in the project root directory (inside selfreplicatingapp-master) and type git init to turn this project into a git repository.
 - Next, you will need to [create a free Heroku account](https://www.heroku.com").
-- [Download and install Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)then in the command prompt opened in the project root directory type heroku login so you can connect your heroku app to the project files.
+- [Download and install Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli), then in the command prompt opened in the project root directory type heroku login so you can connect your heroku app to the project files.
 - In the same command prompt, type heroku create my-app-name to create an app using this code in your Heroku account.
 - Navigate to heroku's website and select your newly created app from the dashboard. On the settings page for the app, find the "Buildpacks" and click the "Add a buildpack" button, select Python, and save changes. Note the domain will be listed next to "Domains and certificates" right below "Buildpacks". You will need this URL for the next step.
 - Next we need to get the necessary client IDs to connect to GitHub's API. To do this, follow the prompts to create a new OAuth app on GitHub for this project [here](https://github.com/settings/applications/new).
