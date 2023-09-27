@@ -1,6 +1,6 @@
 # Self-replicating App
 
-A Django app, which replicates its own code into a GitHub repository, created with Python using Django and deployed on Heroku.
+A Django app, which replicates its own code into a GitHub repository, created with Python using Django and deployed on Google Cloud App Engine.
 This app requires authentication from the user to access their profile information and public repositories. Once the user has accepted, the app will create a new public repository in their account. The repository will contain all of the files required to run the app.
 
 ## How it Works
@@ -18,7 +18,6 @@ When installing the app, the following libraries from requirements.txt will be i
 
 - Django 2.2.13
 - gunicorn 19.9.0
-- django-heroku 0.3.1
 - requests 2.22.0
 
 These python libraries will also install their own required libraries, listed below:
@@ -33,17 +32,16 @@ These python libraries will also install their own required libraries, listed be
 - urllib3 1.25.3
 - whitenoise 4.1.2
 
-To run the app from Heroku (as it is running here), you will also need:
+To run the app from Render (as it is running here), you will also need:
 
 - Git
-- A Heroku account
-- Heroku CLI
+- A Render account
 
 For more details, see How To Install.
 
 ## How To Install
 
-Set up and deploying to Heroku:
+Set up and deploying to Render:
 
 - Install Python 3.7 from the [download page here](https://www.python.org/downloads/release/python-373/).
 - You will also need to [download and install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) if you do not already have it.
@@ -51,8 +49,6 @@ Set up and deploying to Heroku:
 - Download the zip containing the app's code from the GitHub repository and unzip it, or clone it locally with git.
 - Open a command prompt in the project root directory (inside selfreplicatingapp-master) and type git init to turn this project into a git repository.
 - Next, you will need to [create a free Heroku account](https://www.heroku.com").
-- [Download and install Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli), then in the command prompt opened in the project root directory type heroku login so you can connect your heroku app to the project files.
-- In the same command prompt, type heroku create my-app-name to create an app using this code in your Heroku account.
 - Navigate to heroku's website and select your newly created app from the dashboard. On the settings page for the app, find the "Buildpacks" and click the "Add a buildpack" button, select Python, and save changes. Note the domain will be listed next to "Domains and certificates" right below "Buildpacks". You will need this URL for the next step.
 - Next we need to get the necessary client IDs to connect to GitHub's API. To do this, follow the prompts to create a new OAuth app on GitHub for this project [here](https://github.com/settings/applications/new).
 - The homepage URL should be the domain provided by Heroku, for example: "https://my-app-name.herokuapp.com". Set the "Authorization callback URL" to the results page of the app. For example, "https://my-app-name.herokuapp.com/results". Hit the button to register this app and you'll be taken to the app's info screen.

@@ -1,10 +1,10 @@
 {
   "name": "Self-replicating App",
   "description": "A Python app, which replicates its own code into a GitHub repository.",
-  "image": "heroku/python",
+  "image": "python",
   "repository": "https://github.com/H0L0GH05t/self-replicator",
   "keywords": ["python", "django" ],
-  "addons": [ "heroku-postgresql" ],
+  "addons": [],
   "env": {
     "SECRET_KEY": {
       "description": "z-nl6z-xjwuh&tl*+0tqyd94newr0bo58$x-jve2*@5gzzj&s&",
