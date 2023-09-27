@@ -66,7 +66,7 @@ Set up and deploying to Render:
 - Edit the SETUP.txt file in the root folder of the project by copying and pasting the values for "client_id" and "client_secret" from the app info page on GitHub into the labeled spots, then save and close the file.
 - Open a command prompt this same folder and type setup.bat to run the batch file. It will run python -m venv venv to create a python virtual environment. folder in the project root, then pip install -r requirements.txt to install required python libraries. It will also read the Client ID and Client Secret ID you copied to the SETUP.txt file, generate a Secret ID, and paste these values into the settings.py file in the githubapps folder. 
 - Now that it has been created and set up, you can deploy it by typing git push master.
-- On render, you can now manually deploy again for the latest commit to your repository.
+- On render, you can now manually deploy again for the latest commit to your repository if it does not automatically redeploy.
 
 
 To run the app Locally:

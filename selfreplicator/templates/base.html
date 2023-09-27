@@ -32,7 +32,6 @@
       <ul>
         <li>Django 2.2.1</li>
         <li>gunicorn 19.9.0</li>
-        <li>django-heroku 0.3.1</li>
         <li>requests 2.22.0</li>
       </ul>
       <p>These python libraries will also install their own required libraries, listed below:</p>
@@ -47,54 +46,59 @@
         <li>urllib3 1.25.3</li>
         <li>whitenoise 4.1.2</li>
       </ul>
-      <p>To run the app from Heroku (as it is running here), you will also need:</p>
+      <p>To run the app from render (as it is running here), you will also need:</p>
       <ul>
         <li>Git</li>
-        <li>A Heroku account</li>
-        <li>Heroku CLI</li>
+        <li>A Render account</li>
+        <li>A GitHub account</li>
       </ul>
       <p>For more details, see How To Install.</p>
     </div>
     <div id="installation" class="tabcontent">
     <!--<div class="col-md-6">-->
       <h3><span class="glyphicon glyphicon-info-sign"></span> Installation</h3>
-      <p>Set up and deploying to Heroku:</p>
+      <p>Set up and deploying to Render:</p>
       <ul>
         <li>Install Python 3.7 from the <a href="https://www.python.org/downloads/release/python-373/">download page here</a></li>
         <li>You will also need to <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">download and install Git</a> if you do not already have it.</li>
         <li>To set up git for the first time follow the instructions <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">in this guide</a>.</li>
         <li>Download the zip containing the app's code from the GitHub repository and unzip it, or clone it locally with git.</li>
         <li>Open a command prompt in the project root directory (inside selfreplicatingapp-master) and type <code>git init</code> to turn this project into a git repository.</li>
-        <li>Next, you will need to <a href="https://www.heroku.com">create a free Heroku account</a>.</li>
-        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Download and install Heroku CLI</a> then in the command prompt opened in the project root directory type
-        <code>heroku login</code> so you can connect your heroku app to the project files.</li>
-        <li>In the same command prompt, type <code>heroku create my-app-name</code> to create an app using this code in your Heroku account.</li>
-        <li>It will display the URL for your app, which youll need for the next step.</li>
+        <li>Next, you will need to <a href="https://www.render.com">create a free Render account</a>.</li>
+        <li>Navigate to render's website and select the new button and create a new Web Service.</li>
+        <li>Connect to the GitHub repository from your own account, or via the project's public url.</li>
+        <li>Set the name for your web service, this will be used for the url as well.</li>
+        <li>Select the branch of the repository to use, in most cases it will be 'main'.</li>
+        <li>Runtime should be Python 3.</li>
+        <li>For the Start Command, add "gunicorn githubapps.wsgi".</li>
+        <li>The Build Command should be "pip install -r requirements.txt"</li>
+        <li>Once set up, you should be able to deploy by clicking the manual deploy button.</li>
+        <li>Congratulations! The app is now deployed and can be seen using its URL.</li>
+
+        <li>In order to set this up from your own repository copy there's a few more steps to follow.</li>
         <li>Next we need to get the necessary client IDs to connect to GitHub's API. To do this, follow the prompts to create a new OAuth app on GitHub for this project
         <a href="https://github.com/settings/applications/new">here</a>.</li>
-        <li>The homepage URL should be the domain to the app provided by Heroku, for example: "https://my-app-name.herokuapp.com". Set the "Authorization callback URL" to
-        the results page of the app. For example, "https://my-app-name.herokuapp.com/results". Hit the button to register this app and you'll be taken to the app's info screen.</li>
+        <li>The homepage URL should be the domain provided by render which appears on the dashboard for your web service, for example: "https://my-app-name.onrender.com".
+          Set the "Authorization callback URL" to the results page of the app. For example, "https://my-app-name.onrender.com/results". Hit the button to register this app, and you'll be taken to the app's info screen.</li>
         <li>Edit the SETUP.txt file in the root folder of the project by copying and pasting the values for "client_id" and "client_secret" from the app info page on GitHub into the
         labeled spots, then save and close the file.</li>
         <li >Open a command prompt this same folder and type <code>setup.bat</code> to run the batch file. It will run <code>python -m venv venv</code> to create a python virtual environment 
         folder in the project root, then <code>pip install -r requirements.txt</code> to install required python libraries.
         It will also read the Client ID and Client Secret ID you copied to the SETUP.txt file, generate a Secret ID, and paste these values into the settings.py file in the githubapps folder. </li>
-        <li>Now that it has been created and set up, you can commit the files by typing <code>git add .</code> and <code>git commit -m "your commit message here"</code>, then deploy it by typing <code>git push heroku master</code>.</li>
-        <li>Ensure that at least one instance of the app is running by typing <code>heroku ps:scale web=1</code>.</li>
-        <li>Congratulations! The app is now deployed and can be seen using its URL.</li>
-        <li>As a handy shortcut, you can open the website from the command prompt as well with <code>heroku open</code>.</li>
+        <li>Now that it has been created and set up, you can commit the files by typing <code>git add .</code> and <code>git commit -m "your commit message here"</code>, then deploy it by typing <code>git push master</code>.</li>
+        <li>On render, you can now manually deploy again for the latest commit to your repository if it does not automatically redeploy.</li>
       </ul>
       <p>To run the app Locally:</p>
       <ul>
         <li>Type <code>python manage.py collectstatic</code> into the command prompt. This will collect all the static files so that they can be served correctly while running locally.</li>
-        <li>Next, type <code>heroku local web -f Procfile.windows</code> if you're using Windows or <code>heroku local web</code> on a Unix system</li>
+        <li>Type <code>python manage.py runserver</code> into the command prompt. This should start the built-in django server for running locally.</li>
         <li>Open your web browser  to <a href="http://localhost:5000">http://localhost:5000</a>. You should see your app running locally.</li>
         <li>To stop running, go back to your command prompt window and press Ctrl+C to exit.</li>
       </ul>
     </div>
     <div id="techspecs" class="tabcontent">
       <h3><span class="glyphicon glyphicon-question-sign"></span> How it Works</h3>
-      <p>This application was created with Python using Django and deployed on Heroku</p>
+      <p>This application was created with Python using Django and deployed on Render</p>
       <p>Clicking the replicate button sends a request to GitHub in the form of a URL including the client ID
       assigned to this app after registering it with GitHub, and stating which places the app needs access to.
       For this app, access the user's GitHub profile and public repositories is what is required. It does not,
@@ -112,7 +116,7 @@
       <p>Using a request containing the auth token, the name of the repository to be created, description, and an option telling it to not auto-initialize
       with a readme file (since we already have one in the project), the new repository is created in the authenticated user's public repositories.
       Then, for each file that will be copied from the app's files, a request is made with the auth token, the user's username, and the path to where the file should go.</p>
-      <p>Once the app has finished pushing each of the files to the newly created repository, it will load the results page. If everything has been completed successfuly,
+      <p>Once the app has finished pushing each of the files to the newly created repository, it will load the results page. If everything has been completed successfully,
       the results page should have a "Success" message and the log should show success for each step and file copied. If there was an error, the results page will have an
       "Error" message and display the cause of the error in the log. If the repository was created successfully, but there was a problem with copying one or more of the app's
       files to it, then a "Warning" message will be displayed, with the log showing the steps and files that succeeded, as well as identifying the files which failed.</p>
@@ -121,10 +125,7 @@
       <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
       <ul>
         <li><a href="https://github.com/H0L0GH05t/selfreplicator">Repository where this app can be downloaded</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-python">Getting Started with Python on Heroku Guide</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku CLI Download and Installation Guide</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku Deploying with Git Guide</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/django-app-configuration">Configuring Django Apps for Heroku Guide</a></li>
+        <li><a href="https://render.com/docs/deploy-django">Getting Started with Django on Render Guide</a></li>
         <li><a href="https://docs.djangoproject.com/en/2.2/intro/tutorial01/">Django 2.2 Introduction Tutorial</a></li>
         <li><a href="https://github.com/settings/apps/authorizations">Review your app authorizations on GitHub</a></li>
         <li><a href="https://github.com/settings/developers">Create or review an OAuth app on GitHub</a></li>
