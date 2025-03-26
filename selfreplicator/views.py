@@ -43,7 +43,7 @@ def results(request):
     if result_status == "error":
         error_result = "display:block;"
     
-    # render the results page with the status, aand link to user's new repo, and authorizations page
+    # render the results page with the status, and link to user's new repo, and authorizations page
     return render(request, "results.html", {'client_id': settings.CLIENT_ID,
                                             'success_result': success_result,
                                             'warn_result': warn_result,
@@ -105,6 +105,7 @@ def create_repo(access_token, result_msgs):
                     'SETUP.txt',                                # file containing client ids from github
                     '.gitignore',                               # gitignore for this project
                     'manage.py',                                # Django utility to run the app
+                    'pyproject.toml',                           # Path settings for pytest
                     'utils/setup_files.py',                     # utility script to create a settings.py file from the template containing the correct IDs
                     'selfreplicator/admin.py',                  # django: django admin page
                     'selfreplicator/__init__.py',               # django: generated init
