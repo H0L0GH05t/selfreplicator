@@ -18,33 +18,41 @@ from selfreplicator.views import *
 #     username, result_msgs, result_status = get_authenticated_user(headers, result_msgs, result_status)
 #     assert result_status == "success"
 
+class MockResponse:
+    # mock json() method always returns a specific testing dictionary
+    @staticmethod
+    def json():
+        return {'result_msgs': ['Successfully obtained access token from GitHub'],
+                          'result_status': "success",
+                          'success_result': "display:block;"}
+    class GET:
+        def get(code):
+            return 'fakecode'
+
+
 # Test that we can reach the home page
 def test_index():
-    print("Starting home page test...")
-    url = "https://selfreplicator.onrender.com/"  # Replace with your mock API URL
+    url = "https://selfreplicator.onrender.com/"
     response = requests.get(url)
 
     # Verify status code
     assert response.status_code == 200
 
-    print("End of home page test!")
-
 
 def test_results(monkeypatch):
-    print("Starting results view test...")
     def mock_get(*args, **kwargs):
-        return None
+        return 'fakecode'
     def mock_post(*args, **kwargs):
         return 200
 
     monkeypatch.setattr(requests, 'get', mock_get)
-    monkeypatch.setattr(requests, 'post', mock_get)
+    monkeypatch.setattr(requests, 'post', mock_post)
 
-    assert "Successfully obtained access token from GitHub" in result_msgs
-    assert result_status == "success"
-    assert success_result == "display:block;"
+    with self.settings(CLIENT_ID='fakeclientid', CLIENT_SECRET='fakeclientsecret'):
+        result = results(MockResponse())
 
-    print("End of results view test!")
+    assert result['result_status'] == "success"
+
 
 # def test_create_repo(monkeypatch):
 
