@@ -15,6 +15,7 @@ def results(request):
     # each step will report a status message to display in the log box in the results page
     result_msgs = []
     result_status = "error"
+    new_repo_url = ""
     
     # get the code to exchange for an access token
     code_for_token = request.GET.get('code')
